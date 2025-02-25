@@ -1,4 +1,4 @@
-package com.rentalcar.Model;
+package com.rentalcar.backend.model;
 
 import java.util.List;
 import java.util.Date;

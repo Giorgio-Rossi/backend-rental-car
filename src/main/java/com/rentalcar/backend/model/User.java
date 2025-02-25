@@ -1,4 +1,4 @@
-package com.rentalcar.Model;
+package com.rentalcar.backend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

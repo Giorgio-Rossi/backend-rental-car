@@ -1,11 +1,10 @@
 package com.rentalcar.backend.service;
 
-import java.util.List;
-
+import org.hibernate.mapping.List;
 import org.springframework.stereotype.Service;
 
-import com.repository.CarRepository;
-import com.rentalcar.Model.Car;
+import com.rentalcar.backend.repository.CarRepository;
+import com.rentalcar.backend.model.Car;
 
 @Service
 public class CarService {

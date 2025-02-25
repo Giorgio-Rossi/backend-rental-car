@@ -2,8 +2,8 @@ package com.rentalcar.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.repository.UserRepository;
-import com.rentalcar.Model.User;
+import com.rentalcar.backend.repository.UserRepository;
+import com.rentalcar.backend.model.User;
 
 import java.util.List;
 import java.util.Optional;

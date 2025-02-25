@@ -1,8 +1,8 @@
-package com.repository;
+package com.rentalcar.backend.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.rentalcar.Model.CarRequest;
+import com.rentalcar.backend.model.CarRequest;
 
 public interface CarRequestRepository extends JpaRepository<CarRequest, Long> {
     

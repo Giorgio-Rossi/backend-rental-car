@@ -1,7 +1,7 @@
 package com.rentalcar.backend.controller;
 
 import com.rentalcar.backend.service.UserService;
-import com.rentalcar.Model.User;
+import com.rentalcar.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
