@@ -1,12 +1,15 @@
-package com.rentalcar.backend.controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-
-@Controller
+@RestController
+@RequestMapping("/auth")
 public class AuthController {
-    @GetMapping("/login")
-    public String login(){
-        return login();
+
+    @Autowired
+    private AuthService authService;
+
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password) {
+        return authService.login(username, password);  // Restituisce il token JWT
     }
 }

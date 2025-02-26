@@ -2,7 +2,6 @@ package com.rentalcar.backend.service;
 
 import org.hibernate.mapping.List;
 import org.springframework.stereotype.Service;
-
 import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.model.Car;
 
@@ -12,10 +11,6 @@ public class CarService {
 
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
-    }
-
-    public List<Car> getAllCars() {
-        return carRepository.findAll();
     }
 
     public Car getCarById(Long id) {

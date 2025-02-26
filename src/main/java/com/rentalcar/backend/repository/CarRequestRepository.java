@@ -6,7 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.rentalcar.backend.model.CarRequest;
 
 public interface CarRequestRepository extends JpaRepository<CarRequest, Long> {
-    List<CarRequest> findByCarModel(String carModel);
 
-    List<CarRequest> findByStatus(String status);
 }
