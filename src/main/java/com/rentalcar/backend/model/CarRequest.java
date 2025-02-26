@@ -22,7 +22,8 @@ public class CarRequest {
     private List<Long> carId;
 
     @Column(nullable = false)
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private CarRequestStatus status;
 
     @Column(nullable = false)
     private Date startReservation;
@@ -45,7 +46,7 @@ public class CarRequest {
         this.carId = carId;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(CarRequestStatus  status) {
         this.status = status;
     }
 
@@ -68,7 +69,7 @@ public class CarRequest {
     public CarRequest() {
     }
 
-    public CarRequest(Long id, Long userId, List<Long> carId, String status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt) {
+    public CarRequest(Long id, Long userId, List<Long> carId, CarRequestStatus  status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt) {
         this.id = id;
         this.userId = userId;
         this.carId = carId;
@@ -78,4 +79,11 @@ public class CarRequest {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    public enum CarRequestStatus {
+        APPROVATA,
+        CANCELLATA,
+        ANNULLATA
+    }
+
 }

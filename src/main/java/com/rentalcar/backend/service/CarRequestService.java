@@ -13,11 +13,19 @@ public class CarRequestService {
     @Autowired
     private CarRequestRepository carRequestRepository;
 
+
     public List<CarRequest> getAllCarRequest(){
         return carRequestRepository.findAll();
     }
 
     public CarRequest saveCarRequest(CarRequest carRequest) {
         return carRequest;
+    }
+
+    public CarRequest manageRequest(Long requestID, CarRequest updatedStatus) throws Exception {
+        return carRequestRepository.findById(requestID).map( CarRequest -> {
+            CarRequest.setStatus(updatedStatus.getStatus());
+            return saveCarRequest(CarRequest);
+        }).orElseThrow(() -> new Exception("Request not found"));
     }
 }
