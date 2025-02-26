@@ -1,6 +1,5 @@
 package com.rentalcar.backend.service;
 
-import org.hibernate.mapping.List;
 import org.springframework.stereotype.Service;
 import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.model.Car;
@@ -22,6 +21,10 @@ public class CarService {
     }
 
     public void deleteCar(Long id) {
-        carRepository.deleteById(id);
+        this.carRepository.deleteById(id);
+    }
+
+    public void getAllCars() {
+        this.carRepository.findAll();
     }
 }
