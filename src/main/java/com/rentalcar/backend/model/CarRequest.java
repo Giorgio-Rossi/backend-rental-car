@@ -1,15 +1,33 @@
 package com.rentalcar.backend.model;
 
+import jakarta.persistence.*;
+
 import java.util.List;
 import java.util.Date;
 
 public class CarRequest {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id", nullable = false)
     private Long userId;
+
+    @ElementCollection
+    @CollectionTable(name = "car_request_cars", joinColumns = @JoinColumn(name = "car_request_id"))
+    @Column(name = "car_id")
     private List<Long> carId;
+
+    @Column(nullable = false)
     private String status;
+
+    @Column(nullable = false)
     private Date startReservation;
+
+    @Column(nullable = false)
     private Date endReservation;
+
     private Date createdAt;
     private Date updatedAt;
 

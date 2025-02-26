@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.rentalcar.backend.service.CarRequestService;
 
 @RestController
-@RequestMapping("/api/carrequests")
+@RequestMapping("/api/car-requests")
 public class CarRequestController {
 
     @PostMapping
