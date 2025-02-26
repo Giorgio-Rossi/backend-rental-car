@@ -1,6 +1,7 @@
 package com.rentalcar.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.rentalcar.backend.repository.UserRepository;
 import com.rentalcar.backend.model.User;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public class UserService {
     
     private final UserRepository userRepository;
+
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -41,5 +44,17 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public User registerUser(Long id, String username, String email, String role, String password, String fullName){
+        if (userRepository.findByEmail(email) != null){
+            throw new RuntimeException("User already exists!");
+        }
+
+        String encryptedPassword = passwordEncoder.encode(password);
+
+        User newUser = new User(id, username, email, role, encryptedPassword, fullName);
+
+        return userRepository.save(newUser);
     }
 }
