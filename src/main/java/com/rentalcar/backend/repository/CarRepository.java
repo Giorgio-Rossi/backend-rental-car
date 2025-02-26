@@ -15,4 +15,6 @@ public interface CarRepository extends JpaRepository<Car, Long>{
     List<Car> findByPriceBetween(Double minPrice, Double maxPrice);
     List<Car> findByOrderByPriceAsc();
     List<Car> findByModelContaining(String keyword);
+
+    Car findByLicensePlate(String licensePlate);
 }
