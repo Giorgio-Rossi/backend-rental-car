@@ -1,5 +1,6 @@
 package com.rentalcar.backend.service;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.model.Car;
@@ -24,7 +25,7 @@ public class CarService {
         this.carRepository.deleteById(id);
     }
 
-    public void getAllCars() {
-        this.carRepository.findAll();
+    public List<Car> getAllCars() {
+        return this.carRepository.findAll();
     }
 }

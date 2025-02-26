@@ -1,6 +1,6 @@
 package com.rentalcar.backend.controller;
 
-import org.hibernate.mapping.List;
+import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +23,7 @@ public class CarController {
     }
 
     @GetMapping
-    public List getAllCars() {
+    public List<Car> getAllCars() {
         return carService.getAllCars();
     }
 

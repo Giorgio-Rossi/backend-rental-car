@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private String secretKey = "test";
+    private final String secretKey = "test";
 
     @Autowired
     private UserDetailsService userDetailsService;  //
