@@ -1,16 +1,14 @@
 package com.rentalcar.backend.service;
 
+import com.rentalcar.backend.dto.CarRequestDTO;
 import com.rentalcar.backend.model.CarRequest;
 import com.rentalcar.backend.repository.CarRequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
-import java.time.DateTimeException;
-import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CarRequestService {
@@ -18,38 +16,55 @@ public class CarRequestService {
     @Autowired
     private CarRequestRepository carRequestRepository;
 
-
-    public List<CarRequest> getAllCarRequest(){
-        return carRequestRepository.findAll();
+    public List<CarRequestDTO> getAllCarRequests() {
+        return carRequestRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public CarRequest saveCarRequest(CarRequest carRequest) {
-        return carRequest;
+    public CarRequestDTO saveCarRequest(CarRequestDTO carRequestDTO) {
+        CarRequest carRequest = convertToEntity(carRequestDTO);
+        return convertToDTO(carRequestRepository.save(carRequest));
     }
 
-    public CarRequest manageRequest(Long requestID, CarRequest updatedStatus) throws Exception {
-        return carRequestRepository.findById(requestID).map( CarRequest -> {
-            CarRequest.setStatus(updatedStatus.getStatus());
-            return saveCarRequest(CarRequest);
+    public CarRequestDTO manageRequest(Long requestID, CarRequestDTO updatedStatus) throws Exception {
+        return carRequestRepository.findById(requestID).map(carRequest -> {
+            carRequest.setStatus(updatedStatus.getStatus());
+            return convertToDTO(carRequestRepository.save(carRequest));
         }).orElseThrow(() -> new Exception("Request not found"));
     }
 
-    public CarRequest addRequest(Long id, Long userID, Long carID, CarRequest.CarRequestStatus status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt){
-        if (carRequestRepository.findById(carID).isPresent()){
+    public CarRequestDTO addRequest(CarRequestDTO carRequestDTO) {
+        if (carRequestRepository.findById(carRequestDTO.getCarID()).isPresent()) {
             throw new RuntimeException("Car already exists!");
         }
+        CarRequest carRequest = convertToEntity(carRequestDTO);
+        carRequest.setCreatedAt(new Date());
+        carRequest.setUpdatedAt(new Date());
+        return convertToDTO(carRequestRepository.save(carRequest));
+    }
 
-        CarRequest newCarRequest = new CarRequest();
-        newCarRequest.setId(id);
-        newCarRequest.setUserId(userID);
-        newCarRequest.setCarId(carID);
-        newCarRequest.setStatus(status);
-        newCarRequest.setStartReservation(startReservation);
-        newCarRequest.setEndReservation(endReservation);
-        newCarRequest.setCreatedAt(new Date());
-        newCarRequest.setUpdatedAt(new Date());
+    private CarRequestDTO convertToDTO(CarRequest carRequest) {
+        return new CarRequestDTO(
+                carRequest.getId(),
+                carRequest.getUserId(),
+                carRequest.getCarId(),
+                carRequest.getStatus(),
+                carRequest.getStartReservation(),
+                carRequest.getEndReservation(),
+                carRequest.getCreatedAt(),
+                carRequest.getUpdatedAt()
+        );
+    }
 
-        return carRequestRepository.save(newCarRequest);
-
+    private CarRequest convertToEntity(CarRequestDTO carRequestDTO) {
+        return new CarRequest(
+                carRequestDTO.getId(),
+                carRequestDTO.getUserID(),
+                carRequestDTO.getCarID(),
+                carRequestDTO.getStatus(),
+                carRequestDTO.getStartReservation(),
+                carRequestDTO.getEndReservation(),
+                carRequestDTO.getCreatedAt(),
+                carRequestDTO.getUpdatedAt()
+        );
     }
 }

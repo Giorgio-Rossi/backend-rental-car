@@ -1,11 +1,14 @@
 package com.rentalcar.backend.dto;
 
+import java.time.LocalDateTime;
+
 public class CarDTO {
     private Long id;
     private Long brand;
     private Long model;
     private Long licensePlate;
     private String status;
+    private LocalDateTime updatedAt;
 
     public String getStatus() {
         return status;
@@ -46,6 +49,9 @@ public class CarDTO {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
+    public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
     public CarDTO() {}
 

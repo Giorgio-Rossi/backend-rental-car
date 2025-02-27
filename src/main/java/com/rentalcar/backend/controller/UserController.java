@@ -1,5 +1,6 @@
 package com.rentalcar.backend.controller;
 
+import com.rentalcar.backend.dto.UserDTO;
 import com.rentalcar.backend.service.UserService;
 import com.rentalcar.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +20,22 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
+    public List<UserDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public UserDTO getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public UserDTO createUser(@RequestBody UserDTO user) {
         return userService.saveUser(user);
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
         user.setId(id);
         return userService.saveUser(user);
     }

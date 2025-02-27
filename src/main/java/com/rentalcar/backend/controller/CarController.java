@@ -1,6 +1,8 @@
 package com.rentalcar.backend.controller;
 
 import java.util.List;
+
+import com.rentalcar.backend.dto.CarDTO;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,12 +25,12 @@ public class CarController {
     }
 
     @GetMapping
-    public List<Car> getAllCars() {
+    public List<CarDTO> getAllCars() {
         return carService.getAllCars();
     }
 
     @GetMapping("/{id}")
-    public Car getCarById(@PathVariable Long id) {
+    public CarDTO getCarById(@PathVariable Long id) {
         return carService.getCarById(id);
     }
 

@@ -1,6 +1,8 @@
 package com.rentalcar.backend.service;
 
 import java.util.List;
+
+import com.rentalcar.backend.dto.CarDTO;
 import org.springframework.stereotype.Service;
 import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.model.Car;
@@ -15,11 +17,11 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    public Car getCarById(Long id) {
+    public CarDTO getCarById(Long id) {
         return carRepository.findById(id).orElse(null);
     }
 
-    public Car saveCar(Car car) {
+    public CarDTO saveCar(CarDTO car) {
         return carRepository.save(car);
     }
 
@@ -27,15 +29,15 @@ public class CarService {
         this.carRepository.deleteById(id);
     }
 
-    public List<Car> getAllCars() {
+    public List<CarDTO> getAllCars() {
         return this.carRepository.findAll();
     }
 
-    public Car getCarByLicensePlate(String licensePlate){
+    public CarDTO getCarByLicensePlate(String licensePlate){
         return carRepository.findByLicensePlate(licensePlate);
     }
 
-    public Car createCar(Car car) {
+    public CarDTO createCar(CarDTO car) {
         return carRepository.save(car);
     }
 

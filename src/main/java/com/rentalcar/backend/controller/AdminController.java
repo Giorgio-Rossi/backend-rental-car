@@ -1,8 +1,8 @@
 package com.rentalcar.backend.controller;
 
-import com.rentalcar.backend.model.Car;
-import com.rentalcar.backend.model.CarRequest;
-import com.rentalcar.backend.model.User;
+import com.rentalcar.backend.dto.CarDTO;
+import com.rentalcar.backend.dto.CarRequestDTO;
+import com.rentalcar.backend.dto.UserDTO;
 import com.rentalcar.backend.service.CarRequestService;
 import com.rentalcar.backend.service.CarService;
 import com.rentalcar.backend.service.UserService;
@@ -12,42 +12,40 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
+
     @Autowired
     private UserService userService;
+
+    @Autowired
     private CarService carService;
-    private CarRequestService carRequestSerivce;
+
+    @Autowired
+    private CarRequestService carRequestService;
 
     @PostMapping("/add-user")
-    public User registerUser(Long id, String username, String email, String role, String password, String fullName) {
-        return userService.registerUser(id, username, email, role, password, fullName);
+    public UserDTO registerUser(@RequestBody UserDTO userDTO) {
+        return userService.registerUser(userDTO);
     }
 
-    @PostMapping("/edit-user")
-    public User editUser(@PathVariable Long id, @RequestBody User userUpdated){
-        return userService.updateUser(id, userUpdated);
+    @PostMapping("/edit-user/{id}")
+    public UserDTO editUser(@PathVariable Long id, @RequestBody UserDTO userUpdated) {
+        userUpdated.setId(id);
+        return userService.updateUser(userUpdated);
     }
-
-    /*
-    @PostMapping("/add-car")
-    public Car registerCar(Long id, String brand, String model, String licensePlate, String status){
-        return carService.registerCar(id, brand, model, licensePlate, status);
-    }
-    */
 
     @PostMapping("/add-car")
-    public Car createCar(@RequestBody Car car) {
-        return carService.createCar(car);
+    public CarDTO createCar(@RequestBody CarDTO carDTO) {
+        return carService.createCar(carDTO);
     }
 
-
-    @PostMapping("/edit-car")
-    public Car editCar(@PathVariable Long id, @RequestBody Car updatedCar){
-        return carService.updateCar(id, updatedCar);
+    @PostMapping("/edit-car/{id}")
+    public CarDTO editCar(@PathVariable Long id, @RequestBody CarDTO updatedCar) {
+        updatedCar.setId(id);
+        return carService.updateCar(updatedCar);
     }
 
-    @PostMapping("/manage-request")
-    public CarRequest manageRequest(@PathVariable Long id,@RequestBody CarRequest status) throws Exception {
-        return carRequestSerivce.manageRequest(id, status);
+    @PostMapping("/manage-request/{id}")
+    public CarRequestDTO manageRequest(@PathVariable Long id, @RequestBody CarRequestDTO status) throws Exception {
+        return carRequestService.manageRequest(id, status);
     }
-
 }
