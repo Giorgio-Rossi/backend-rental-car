@@ -27,10 +27,18 @@ public class AdminController {
         return userService.updateUser(id, userUpdated);
     }
 
+    /*
     @PostMapping("/add-car")
     public Car registerCar(Long id, String brand, String model, String licensePlate, String status){
         return carService.registerCar(id, brand, model, licensePlate, status);
     }
+    */
+
+    @PostMapping("/add-car")
+    public Car createCar(@RequestBody Car car) {
+        return carService.createCar(car);
+    }
+
 
     @PostMapping("/edit-car")
     public Car editCar(@PathVariable Long id, @RequestBody Car updatedCar){

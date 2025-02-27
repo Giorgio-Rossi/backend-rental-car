@@ -4,6 +4,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.model.Car;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class CarService {
@@ -33,6 +35,11 @@ public class CarService {
         return carRepository.findByLicensePlate(licensePlate);
     }
 
+    public Car createCar(Car car) {
+        return carRepository.save(car);
+    }
+
+    /*
     public Car registerCar(Long id, String brand, String model, String licensePlate, String status){
         if (carRepository.findByLicensePlate(licensePlate) != null){
             throw new RuntimeException("Car already exists!");
@@ -46,6 +53,7 @@ public class CarService {
 
         return carRepository.save(newCar);
     }
+     */
 
     public Car updateCar(Long id, Car updatedCar){
         return carRepository.findById(id).map(car -> {

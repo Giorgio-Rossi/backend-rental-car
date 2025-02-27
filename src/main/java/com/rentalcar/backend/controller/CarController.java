@@ -32,10 +32,6 @@ public class CarController {
         return carService.getCarById(id);
     }
 
-    @PostMapping
-    public Car createCar(@RequestBody Car car) {
-        return carService.saveCar(car);
-    }
 
     @DeleteMapping("/{id}")
     public void deleteCar(@PathVariable Long id) {
