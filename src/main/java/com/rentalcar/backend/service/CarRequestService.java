@@ -33,14 +33,16 @@ public class CarRequestService {
     }
 
     public CarRequestDTO addRequest(CarRequestDTO carRequestDTO) {
-        if (carRequestRepository.findById(carRequestDTO.getCarID()).isPresent()) {
-            throw new RuntimeException("Car already exists!");
+        if (carRequestRepository.findByCarIdAndUserId(carRequestDTO.getCarID(), carRequestDTO.getUserID()).isPresent()) {
+            throw new RuntimeException("Request already exists for this car!");
         }
         CarRequest carRequest = convertToEntity(carRequestDTO);
         carRequest.setCreatedAt(new Date());
         carRequest.setUpdatedAt(new Date());
+
         return convertToDTO(carRequestRepository.save(carRequest));
     }
+
 
     private CarRequestDTO convertToDTO(CarRequest carRequest) {
         return new CarRequestDTO(

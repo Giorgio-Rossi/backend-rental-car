@@ -29,6 +29,8 @@ public class CarController {
         return carService.getAllCars();
     }
 
+
+
     @GetMapping("/{id}")
     public CarDTO getCarById(@PathVariable Long id) {
         return carService.getCarById(id);

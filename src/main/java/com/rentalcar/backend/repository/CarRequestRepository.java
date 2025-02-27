@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.rentalcar.backend.model.CarRequest;
 
+import java.util.Optional;
+
 public interface CarRequestRepository extends JpaRepository<CarRequest, Long> {
+    Optional<CarRequest> findByCarIdAndUserId(Long carId, Long userId);
 
 }

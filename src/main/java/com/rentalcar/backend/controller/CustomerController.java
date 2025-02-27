@@ -1,18 +1,24 @@
 package com.rentalcar.backend.controller;
 
-import com.rentalcar.backend.model.CarRequest;
+import com.rentalcar.backend.dto.CarRequestDTO;
 import com.rentalcar.backend.service.CarRequestService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
+@RestController
+public class CustomerController {
 
-public class CustomerController{
+    private final CarRequestService carRequestService;
 
-    private CarRequest carRequest;
-    private CarRequestService carRequestService;
+    @Autowired
+    public CustomerController(CarRequestService carRequestService) {
+        this.carRequestService = carRequestService;
+    }
 
     @PostMapping("/add-request")
-    public CarRequest addCarRequest(Long id, Long userID, Long carID, CarRequest.CarRequestStatus status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt){
-        return carRequestService.addRequest(id, userID, carID, status, startReservation, endReservation, createdAt, updatedAt);
+    public CarRequestDTO addCarRequest(@RequestBody CarRequestDTO carRequestDTO) {
+        return carRequestService.addRequest(carRequestDTO);
     }
 }

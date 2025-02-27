@@ -8,7 +8,6 @@ import com.rentalcar.backend.dto.UserDTO;
 import com.rentalcar.backend.model.User;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service

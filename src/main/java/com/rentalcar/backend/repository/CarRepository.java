@@ -1,6 +1,7 @@
 package com.rentalcar.backend.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -16,5 +17,5 @@ public interface CarRepository extends JpaRepository<Car, Long>{
     List<Car> findByOrderByPriceAsc();
     List<Car> findByModelContaining(String keyword);
 
-    Car findByLicensePlate(String licensePlate);
+    Optional<Car> findByLicensePlate(String licensePlate);
 }

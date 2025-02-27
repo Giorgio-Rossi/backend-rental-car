@@ -2,10 +2,12 @@ package com.rentalcar.backend.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 import java.util.Date;
 
+@Setter
 @Getter
 public class CarRequest {
     @Id
@@ -32,38 +34,6 @@ public class CarRequest {
 
     private Date createdAt;
     private Date updatedAt;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public void setCarId(Long carId) {
-        this.carId = carId;
-    }
-
-    public void setStatus(CarRequestStatus  status) {
-        this.status = status;
-    }
-
-    public void setStartReservation(Date startReservation) {
-        this.startReservation = startReservation;
-    }
-
-    public void setEndReservation(Date endReservation) {
-        this.endReservation = endReservation;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
     public CarRequest() {
     }
