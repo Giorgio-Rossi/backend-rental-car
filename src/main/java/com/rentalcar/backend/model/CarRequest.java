@@ -16,10 +16,9 @@ public class CarRequest {
     @JoinColumn(name="user_id", nullable = false)
     private Long userId;
 
-    @ElementCollection
-    @CollectionTable(name = "car_request_cars", joinColumns = @JoinColumn(name = "car_request_id"))
-    @Column(name = "car_id")
-    private List<Long> carId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_id", nullable = false)
+    private Long carId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -42,7 +41,7 @@ public class CarRequest {
         this.userId = userId;
     }
 
-    public void setCarId(List<Long> carId) {
+    public void setCarId(Long carId) {
         this.carId = carId;
     }
 
@@ -69,7 +68,7 @@ public class CarRequest {
     public CarRequest() {
     }
 
-    public CarRequest(Long id, Long userId, List<Long> carId, CarRequestStatus  status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt) {
+    public CarRequest(Long id, Long userId, Long carId, CarRequestStatus  status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt) {
         this.id = id;
         this.userId = userId;
         this.carId = carId;
