@@ -31,12 +31,11 @@ public class AdminController {
     }
 
 
-    /*
     @PostMapping("/add-user")
-    public UserDTO registerUser(@RequestBody UserDTO userDTO) {
-        return userService.registerUser(userDTO);
+    public UserDTO createUser(@RequestBody UserDTO user) {
+        return userService.saveUser(user);
     }
-*/
+
     @PostMapping("/edit-user/{id}")
     public UserDTO editUser(@PathVariable Long id, @RequestBody UserDTO userUpdated) {
         userUpdated.setId(id);

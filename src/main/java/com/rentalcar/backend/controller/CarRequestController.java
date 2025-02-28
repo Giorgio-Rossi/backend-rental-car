@@ -18,7 +18,7 @@ public class CarRequestController {
         this.carRequestService = carRequestService;
     }
 
-    @PostMapping
+    @PostMapping("/create-request")
     public CarRequestService createCarRequest(@RequestBody CarRequestService carRequest) {
         return carRequest;
     }

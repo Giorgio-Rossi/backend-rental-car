@@ -42,4 +42,6 @@ public class CarController {
     public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
     }
+
+    // Aggiungere metodo per trovare tutte le auto con status disponibile
 }

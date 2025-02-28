@@ -29,10 +29,7 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO user) {
-        return userService.saveUser(user);
-    }
+
 
     @PutMapping("/{id}")
     public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
