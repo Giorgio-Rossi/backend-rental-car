@@ -1,7 +1,7 @@
 package com.rentalcar.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import com.rentalcar.backend.repository.UserRepository;
 import com.rentalcar.backend.dto.UserDTO;
@@ -12,14 +12,18 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
 
+    private final UserRepository userRepository;
+
+    /*
+    private final BCryptPasswordEncoder passwordEncoder;
+    */
     @Autowired
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+    /*    this.passwordEncoder = passwordEncoder;    */
     }
+
 
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
@@ -45,7 +49,7 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
-
+    /*
     public UserDTO registerUser(UserDTO userDTO) {
         if (userRepository.findByEmail(userDTO.getEmail()) != null) {
             throw new RuntimeException("User already exists!");
@@ -53,6 +57,8 @@ public class UserService {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return saveUser(userDTO);
     }
+    */
+
 
     public UserDTO updateUser(UserDTO updateUserDTO) {
         return userRepository.findById(updateUserDTO.getId()).map(user -> {

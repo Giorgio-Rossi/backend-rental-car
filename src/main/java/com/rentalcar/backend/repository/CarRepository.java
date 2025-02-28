@@ -12,10 +12,6 @@ import com.rentalcar.backend.model.Car;
 public interface CarRepository extends JpaRepository<Car, Long>{
     List<Car> findByModel(String model);
     List<Car> findByBrand(String brand);
-    List<Car> findByAvailableTrue();
-    List<Car> findByPriceBetween(Double minPrice, Double maxPrice);
-    List<Car> findByOrderByPriceAsc();
-    List<Car> findByModelContaining(String keyword);
 
     Optional<Car> findByLicensePlate(String licensePlate);
 }

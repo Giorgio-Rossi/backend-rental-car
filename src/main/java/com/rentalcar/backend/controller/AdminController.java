@@ -6,27 +6,37 @@ import com.rentalcar.backend.dto.UserDTO;
 import com.rentalcar.backend.service.CarRequestService;
 import com.rentalcar.backend.service.CarService;
 import com.rentalcar.backend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private CarService carService;
+    private final UserService userService;
+    private final CarService carService;
+    private final CarRequestService carRequestService;
 
-    @Autowired
-    private CarRequestService carRequestService;
+    public AdminController(UserService userService, CarService carService, CarRequestService carRequestService) {
+        this.userService = userService;
+        this.carService = carService;
+        this.carRequestService = carRequestService;
+    }
 
+    @GetMapping("/test")
+    public String adminTest() {
+        return "Admin controller funziona!";
+    }
+
+
+    /*
     @PostMapping("/add-user")
     public UserDTO registerUser(@RequestBody UserDTO userDTO) {
         return userService.registerUser(userDTO);
     }
-
+*/
     @PostMapping("/edit-user/{id}")
     public UserDTO editUser(@PathVariable Long id, @RequestBody UserDTO userUpdated) {
         userUpdated.setId(id);

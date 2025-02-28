@@ -1,5 +1,6 @@
 package com.rentalcar.config;
 
+import com.rentalcar.BackendApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 

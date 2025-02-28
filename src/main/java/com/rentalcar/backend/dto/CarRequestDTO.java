@@ -1,6 +1,8 @@
 package com.rentalcar.backend.dto;
 
+import com.rentalcar.backend.model.Car;
 import com.rentalcar.backend.model.CarRequest;
+import com.rentalcar.backend.model.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,4 +34,6 @@ public class CarRequestDTO {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
 }
+

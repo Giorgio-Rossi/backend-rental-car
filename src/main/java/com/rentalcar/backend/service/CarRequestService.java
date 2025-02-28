@@ -1,8 +1,12 @@
 package com.rentalcar.backend.service;
 
 import com.rentalcar.backend.dto.CarRequestDTO;
+import com.rentalcar.backend.model.Car;
 import com.rentalcar.backend.model.CarRequest;
+import com.rentalcar.backend.model.User;
+import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.repository.CarRequestRepository;
+import com.rentalcar.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +17,18 @@ import java.util.stream.Collectors;
 @Service
 public class CarRequestService {
 
-    @Autowired
-    private CarRequestRepository carRequestRepository;
+
+    private final CarRequestRepository carRequestRepository;
+
+    private  final UserRepository userRepository;
+
+    private final CarRepository carRepository;
+
+    public CarRequestService(CarRequestRepository carRequestRepository, UserRepository userRepository, CarRepository carRepository) {
+        this.carRequestRepository = carRequestRepository;
+        this.userRepository = userRepository;
+        this.carRepository = carRepository;
+    }
 
     public List<CarRequestDTO> getAllCarRequests() {
         return carRequestRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
@@ -24,6 +38,7 @@ public class CarRequestService {
         CarRequest carRequest = convertToEntity(carRequestDTO);
         return convertToDTO(carRequestRepository.save(carRequest));
     }
+
 
     public CarRequestDTO manageRequest(Long requestID, CarRequestDTO updatedStatus) throws Exception {
         return carRequestRepository.findById(requestID).map(carRequest -> {
@@ -47,8 +62,8 @@ public class CarRequestService {
     private CarRequestDTO convertToDTO(CarRequest carRequest) {
         return new CarRequestDTO(
                 carRequest.getId(),
-                carRequest.getUserId(),
-                carRequest.getCarId(),
+                carRequest.getUser().getId(),
+                carRequest.getCar().getId(),
                 carRequest.getStatus(),
                 carRequest.getStartReservation(),
                 carRequest.getEndReservation(),
@@ -58,15 +73,21 @@ public class CarRequestService {
     }
 
     private CarRequest convertToEntity(CarRequestDTO carRequestDTO) {
-        return new CarRequest(
-                carRequestDTO.getId(),
-                carRequestDTO.getUserID(),
-                carRequestDTO.getCarID(),
-                carRequestDTO.getStatus(),
-                carRequestDTO.getStartReservation(),
-                carRequestDTO.getEndReservation(),
-                carRequestDTO.getCreatedAt(),
-                carRequestDTO.getUpdatedAt()
-        );
+        User user = userRepository.findById(carRequestDTO.getUserID())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        Car car = carRepository.findById(carRequestDTO.getCarID())
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        CarRequest carRequest = new CarRequest();
+        carRequest.setId(carRequestDTO.getId());
+        carRequest.setUser(user);
+        carRequest.setCar(car);
+        carRequest.setStatus(carRequestDTO.getStatus());
+        carRequest.setStartReservation(carRequestDTO.getStartReservation());
+        carRequest.setEndReservation(carRequestDTO.getEndReservation());
+        carRequest.setCreatedAt(carRequestDTO.getCreatedAt());
+        carRequest.setUpdatedAt(carRequestDTO.getUpdatedAt());
+
+        return carRequest;
     }
 }

@@ -4,9 +4,11 @@ import org.hibernate.mapping.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.rentalcar.backend.model.CarRequest;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
+@Repository
 public interface CarRequestRepository extends JpaRepository<CarRequest, Long> {
     Optional<CarRequest> findByCarIdAndUserId(Long carId, Long userId);
 
