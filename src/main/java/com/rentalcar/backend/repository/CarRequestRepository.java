@@ -11,5 +11,7 @@ import java.util.Optional;
 @Repository
 public interface CarRequestRepository extends JpaRepository<CarRequest, Long> {
     Optional<CarRequest> findByCarIdAndUserId(Long carId, Long userId);
+    void deleteByUserId(Long userId);
+    void deleteByCarId(Long carId);
 
 }

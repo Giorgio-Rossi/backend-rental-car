@@ -3,6 +3,8 @@ package com.rentalcar.backend.controller;
 import com.rentalcar.backend.dto.CarDTO;
 import com.rentalcar.backend.dto.CarRequestDTO;
 import com.rentalcar.backend.dto.UserDTO;
+import com.rentalcar.backend.model.Car;
+import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.service.CarRequestService;
 import com.rentalcar.backend.service.CarService;
 import com.rentalcar.backend.service.UserService;
@@ -18,11 +20,14 @@ public class AdminController {
     private final UserService userService;
     private final CarService carService;
     private final CarRequestService carRequestService;
+    private final CarRepository carRepository;
 
-    public AdminController(UserService userService, CarService carService, CarRequestService carRequestService) {
+
+    public AdminController(UserService userService, CarService carService, CarRequestService carRequestService, CarRepository carRepository, CarRepository carRepository1) {
         this.userService = userService;
         this.carService = carService;
         this.carRequestService = carRequestService;
+        this.carRepository = carRepository1;
     }
 
     @GetMapping("/test")
@@ -44,8 +49,20 @@ public class AdminController {
 
     @PostMapping("/add-car")
     public CarDTO createCar(@RequestBody CarDTO carDTO) {
-        return carService.createCar(carDTO);
+        Long lastId = carRepository.findTopByOrderByIdDesc()
+                .map(Car::getId)
+                .orElse(0L);
+
+        carDTO.setId(lastId + 1);
+
+        return carService.saveCar(carDTO);
     }
+
+    @GetMapping("/last-car-id")
+    public Long getLastCarId() {
+        return carService.getLastCarId();
+    }
+
 
     @PostMapping("/edit-car/{id}")
     public CarDTO editCar(@PathVariable Long id, @RequestBody CarDTO updatedCar) {

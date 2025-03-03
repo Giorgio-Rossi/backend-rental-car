@@ -40,6 +40,7 @@ public class CarRequestService {
     }
 
 
+
     public CarRequestDTO manageRequest(Long requestID, CarRequestDTO updatedStatus) throws Exception {
         return carRequestRepository.findById(requestID).map(carRequest -> {
             carRequest.setStatus(updatedStatus.getStatus());
@@ -57,6 +58,11 @@ public class CarRequestService {
 
         return convertToDTO(carRequestRepository.save(carRequest));
     }
+
+    public void deleteRequest(Long requestID) {
+         carRequestRepository.deleteById(requestID);
+    }
+
 
 
     private CarRequestDTO convertToDTO(CarRequest carRequest) {

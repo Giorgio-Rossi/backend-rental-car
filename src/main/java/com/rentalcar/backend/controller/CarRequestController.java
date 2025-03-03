@@ -19,12 +19,17 @@ public class CarRequestController {
     }
 
     @PostMapping("/create-request")
-    public CarRequestService createCarRequest(@RequestBody CarRequestService carRequest) {
-        return carRequest;
+    public CarRequestDTO createCarRequest(@RequestBody CarRequestDTO  CarRequestDTO) {
+       return carRequestService.addRequest(CarRequestDTO);
     }
 
     @GetMapping("/all-requests")
     public List<CarRequestDTO> getAllCarRequests() {
         return carRequestService.getAllCarRequests();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteRequest(@PathVariable("id") Long requestID) {
+        carRequestService.deleteRequest(requestID);
     }
 }

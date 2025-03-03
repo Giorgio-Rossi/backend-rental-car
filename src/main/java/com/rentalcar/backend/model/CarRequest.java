@@ -16,11 +16,11 @@ public class CarRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
@@ -40,7 +40,7 @@ public class CarRequest {
     public CarRequest() {
     }
 
-    public CarRequest(Long id, User userId, Car carId, CarRequestStatus  status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt) {
+    public CarRequest(Long id, User userId, Car carId, CarRequestStatus status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt) {
         this.id = id;
         this.user = userId;
         this.car = carId;
@@ -52,10 +52,19 @@ public class CarRequest {
     }
 
 
+    @Getter
     public enum CarRequestStatus {
         APPROVATA,
         CANCELLATA,
-        ANNULLATA
-    }
+        ANNULLATA,
+        IN_ATTESA;
 
+        @Override
+        public String toString() {
+            return switch (this) {
+                case IN_ATTESA -> "IN ATTESA";
+                default -> name();
+            };
+        }
+    }
 }

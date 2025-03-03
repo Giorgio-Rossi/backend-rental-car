@@ -43,5 +43,8 @@ public class CarController {
         carService.deleteCar(id);
     }
 
-    // Aggiungere metodo per trovare tutte le auto con status disponibile
+    @GetMapping("/available-cars")
+    public List<CarDTO> getAvailableCars() {
+        return carService.getAvailableCars();
+    }
 }
