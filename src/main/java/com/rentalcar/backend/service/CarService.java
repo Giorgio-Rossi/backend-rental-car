@@ -42,7 +42,9 @@ public class CarService {
             if (carOpt.isEmpty()) {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Auto non trovata");
             }
+            System.out.println("Deleting car requests for car ID: " + id);
             Car car = carOpt.get();
+
             carRequestRepository.deleteByCarId(id);
             carRepository.delete(car);
 

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 
 @Setter
@@ -31,6 +32,10 @@ public class Car {
 
     @Getter
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CarRequest> carRequests;
+
 
     public Car(Long id, String brand, String model, String licensePlate, String status) {
         this.id = id;

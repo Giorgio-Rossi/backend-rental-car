@@ -26,12 +26,6 @@ public class CarController {
         return carService.getAllCars();
     }
 
-
-    @GetMapping("/test")
-    public String test() {
-        return "Endpoint di test raggiunto!";
-    }
-
     @GetMapping("/{id}")
     public CarDTO getCarById(@PathVariable Long id) {
         return carService.getCarById(id);
@@ -39,11 +33,11 @@ public class CarController {
 
 
     @DeleteMapping("/{id}")
-    public void deleteCar(@PathVariable Long id) {
+    public void deleteCar(@PathVariable("id") Long id) {
         carService.deleteCar(id);
     }
 
-    @GetMapping("/available-cars")
+    @GetMapping("/avaiable-cars")
     public List<CarDTO> getAvailableCars() {
         return carService.getAvailableCars();
     }

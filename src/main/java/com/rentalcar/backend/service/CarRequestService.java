@@ -7,7 +7,7 @@ import com.rentalcar.backend.model.User;
 import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.repository.CarRequestRepository;
 import com.rentalcar.backend.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -39,11 +39,16 @@ public class CarRequestService {
         return convertToDTO(carRequestRepository.save(carRequest));
     }
 
+    public CarRequestDTO updateRequest(CarRequestDTO carRequestDTO) {
+        CarRequest carRequest = convertToEntity(carRequestDTO);
+        carRequest.setUpdatedAt(new Date());
+        return convertToDTO(carRequestRepository.save(carRequest));
+    }
 
-
-    public CarRequestDTO manageRequest(Long requestID, CarRequestDTO updatedStatus) throws Exception {
+    public CarRequestDTO manageRequest(Long requestID, String newStatus) throws Exception {
         return carRequestRepository.findById(requestID).map(carRequest -> {
-            carRequest.setStatus(updatedStatus.getStatus());
+            CarRequest.CarRequestStatus status = CarRequest.CarRequestStatus.valueOf(newStatus);
+            carRequest.setStatus(status);
             return convertToDTO(carRequestRepository.save(carRequest));
         }).orElseThrow(() -> new Exception("Request not found"));
     }
@@ -59,11 +64,10 @@ public class CarRequestService {
         return convertToDTO(carRequestRepository.save(carRequest));
     }
 
+    @Transactional
     public void deleteRequest(Long requestID) {
          carRequestRepository.deleteById(requestID);
     }
-
-
 
     private CarRequestDTO convertToDTO(CarRequest carRequest) {
         return new CarRequestDTO(

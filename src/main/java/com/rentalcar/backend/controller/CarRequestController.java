@@ -28,8 +28,17 @@ public class CarRequestController {
         return carRequestService.getAllCarRequests();
     }
 
+    @PutMapping("/update-request/{id}")
+    public CarRequestDTO updateRequest(
+            @PathVariable("id") Long id,
+            @RequestBody CarRequestDTO carRequestDTO
+    ) {
+        carRequestDTO.setId(id);
+        return carRequestService.updateRequest(carRequestDTO);
+    }
+
     @DeleteMapping("/{id}")
-    public void deleteRequest(@PathVariable("id") Long requestID) {
-        carRequestService.deleteRequest(requestID);
+    public void deleteRequest(@PathVariable("id") Long id) {
+        carRequestService.deleteRequest(id);
     }
 }

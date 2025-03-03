@@ -16,7 +16,7 @@ public class CarRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -55,8 +55,9 @@ public class CarRequest {
     @Getter
     public enum CarRequestStatus {
         APPROVATA,
-        CANCELLATA,
+        RIFIUTATA,
         ANNULLATA,
+        CANCELLATA,
         IN_ATTESA;
 
         @Override
