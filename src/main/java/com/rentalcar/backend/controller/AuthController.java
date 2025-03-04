@@ -1,12 +1,11 @@
 package com.rentalcar.backend.controller;
-/*
+
+import com.rentalcar.backend.model.User;
 import com.rentalcar.backend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/login")
@@ -18,27 +17,35 @@ public class AuthController {
         this.authService = authService;
     }
 
-    /*
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        return authService.login(username, password);
-    }
-
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> credentials) {
-        String username = credentials.get("username");
-        String password = credentials.get("password");
-        if ("admin".equals(username) && "admin".equals(password)) {
-            return ResponseEntity.ok(Map.of("success", true, "role", "admin"));
+    public ResponseEntity<User> login(@RequestParam String username, @RequestParam String password) {
+        User user = authService.login(username, password);
+        if (user != null) {
+            return ResponseEntity.ok(user);
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("success", false));
+            return ResponseEntity.status(401).body(null);
         }
     }
 
+
     @PostMapping("/logout")
-    public String logout(@RequestParam String username){
-        return authService.logout(username);
+    public ResponseEntity<String> logout(@RequestBody String body) {
+        String username = extractUsernameFromBody(body);
+        String response = authService.logout(username);
+        if (response.contains("successful")) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        }
+    }
+
+    private String extractUsernameFromBody(String body) {
+        String[] params = body.split("&");
+        for (String param : params) {
+            if (param.startsWith("username=")) {
+                return param.split("=")[1];
+            }
+        }
+        return null;
     }
 }
-*/
