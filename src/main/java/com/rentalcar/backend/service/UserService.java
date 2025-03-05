@@ -43,12 +43,17 @@ public class UserService {
     }
 
     public UserDTO getUserByUsername(String username) {
-        return convertToDTO(userRepository.findByUsername(username));
+        return userRepository.findByUsername(username)
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
     }
 
     public UserDTO getUserByEmail(String email) {
-        return convertToDTO(userRepository.findByEmail(email));
+        return userRepository.findByEmail(email)
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
     }
+
 
     public UserDTO saveUser(UserDTO userDTO) {
         User user = convertToEntity(userDTO);

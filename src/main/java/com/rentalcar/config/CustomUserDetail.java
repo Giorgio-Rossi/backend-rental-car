@@ -9,12 +9,13 @@ import java.util.List;
 
 public class CustomUserDetail implements UserDetails {
 
-    private String username;
-    private String password;
-    private List<GrantedAuthority> authorities;
+    private final String username;
+    private final String password;
+    private final List<GrantedAuthority> authorities;
 
-    public void CustomUserDetails(String username) {
+    public CustomUserDetail(String username, String password) {
         this.username = username;
+        this.password = password;
         this.authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
