@@ -7,9 +7,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-@EntityScan("com.rentalcar.backend.model")
-@EnableJpaRepositories("com.rentalcar.backend.repository")
+@SpringBootApplication
 public class BackendApplication {
 
 	public static void main(String[] args) {

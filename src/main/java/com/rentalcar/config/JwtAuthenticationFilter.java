@@ -1,7 +1,7 @@
 package com.rentalcar.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.rentalcar.backend.service.CustomUserDetailService;
+import com.rentalcar.backend.service.CustomUserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtHelper jwtHelper;
     @Autowired
-    private CustomUserDetailService customUserDetailService;
+    private CustomUserDetailsService customUserDetailService;
 
     private final String secret= "una_chiave_sicura_di_almeno_32_caratteri_1234567890";
     @Autowired

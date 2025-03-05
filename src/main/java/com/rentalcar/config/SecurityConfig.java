@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -15,15 +16,15 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    private static final String[] ADMIN_ENDPOINTS = {
+    final String[] ADMIN_ENDPOINTS = {
             "/admin/**",
             "/api/car-requests/**",
             "/users/**"
     };
 
-    private static final String[] CUSTOMER_ENDPOINTS = {
+    final String[] CUSTOMER_ENDPOINTS = {
             "/customer/add-request"
     };
 
@@ -34,17 +35,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+        http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers(ADMIN_ENDPOINTS).hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/users/{id}").hasRole("CUSTOMER")
                         .requestMatchers(CUSTOMER_ENDPOINTS).hasRole("CUSTOMER")
                         .anyRequest().authenticated()
-                );
+                )
+                .sessionManagement(sessionManagment -> sessionManagment
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

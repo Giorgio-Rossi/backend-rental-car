@@ -20,7 +20,6 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 @RequestMapping("/admin")
 public class AdminController {
 
-
     private final UserService userService;
     private final CarService carService;
     private final CarRequestService carRequestService;

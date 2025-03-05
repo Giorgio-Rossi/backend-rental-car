@@ -4,35 +4,31 @@ import com.rentalcar.backend.dto.LoginRequestDTO;
 import com.rentalcar.backend.dto.LoginResponseDTO;
 import com.rentalcar.backend.model.User;
 import com.rentalcar.backend.service.AuthService;
-import com.rentalcar.backend.service.CustomUserDetailService;
+import com.rentalcar.backend.service.CustomUserDetailsService;
 import com.rentalcar.config.JwtUtils;
-import com.rentalcar.security.AuthRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;
     private final AuthenticationManager authenticationManager;
-    private final CustomUserDetailService customUserDetailService;
+    private final CustomUserDetailsService customUserDetailService;
     private final JwtUtils jwtUtils;
 
     @Autowired
     public AuthController(
             AuthenticationManager authenticationManager,
             AuthService authService,
-            CustomUserDetailService customUserDetailService,
+            CustomUserDetailsService customUserDetailService,
             JwtUtils jwtUtils
     ) {
         this.authenticationManager = authenticationManager;
