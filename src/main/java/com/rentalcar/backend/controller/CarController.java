@@ -37,7 +37,7 @@ public class CarController {
         carService.deleteCar(id);
     }
 
-    @GetMapping("/avaiable-cars")
+    @GetMapping("/available-cars")
     public List<CarDTO> getAvailableCars() {
         return carService.getAvailableCars();
     }

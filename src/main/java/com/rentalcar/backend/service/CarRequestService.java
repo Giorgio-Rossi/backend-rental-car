@@ -30,6 +30,14 @@ public class CarRequestService {
         this.carRepository = carRepository;
     }
 
+
+    public List<CarRequestDTO> getCarRequestsByUserId(String username) {
+        return carRequestRepository.findByUserUsername(username)
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
     public List<CarRequestDTO> getAllCarRequests() {
         return carRequestRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }

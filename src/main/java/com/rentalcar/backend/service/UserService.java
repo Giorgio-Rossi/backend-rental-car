@@ -48,6 +48,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
     }
 
+
     public UserDTO getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .map(this::convertToDTO)
@@ -85,6 +86,8 @@ public class UserService {
                 .map(User::getId)
                 .orElse(0L);
     }
+
+
 
     /*
     public UserDTO registerUser(UserDTO userDTO) {

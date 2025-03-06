@@ -26,13 +26,18 @@ public class SecurityConfig {
 
     final String[] ADMIN_ENDPOINTS = {
             "/admin/**",
-            "/api/car-requests/**",
-            "/users/**"
+            "/users/allusers",
+            "/api/cars/"
     };
 
     final String[] CUSTOMER_ENDPOINTS = {
             "/customer/add-request",
-            "/api/cars/avaiable-cars"
+            "/api/cars/available-cars",
+            "/api/cars/allcars",
+            "/users/alluser",
+            "/api/car-requests/get-request-by-username",
+            "/api/car-requests/create-request",
+            "/users/get-user-by-username"
     };
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
