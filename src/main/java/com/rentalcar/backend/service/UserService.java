@@ -80,6 +80,12 @@ public class UserService {
         }
     }
 
+    public Long getLastUserId() {
+        return userRepository.findTopByOrderByIdDesc()
+                .map(User::getId)
+                .orElse(0L);
+    }
+
     /*
     public UserDTO registerUser(UserDTO userDTO) {
         if (userRepository.findByEmail(userDTO.getEmail()) != null) {

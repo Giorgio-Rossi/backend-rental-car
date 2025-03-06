@@ -55,6 +55,11 @@ public class AdminController {
         return carService.saveCar(carDTO);
     }
 
+    @GetMapping("/last-user-id")
+    public Long getLastUserId() {
+        return userService.getLastUserId();
+    }
+
     @GetMapping("/last-car-id")
     public Long getLastCarId() {
         return carService.getLastCarId();

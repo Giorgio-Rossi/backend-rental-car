@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
                     new UsernameNotFoundException("User not exists by Username or Email"));
 
             Set<GrantedAuthority> authorities = new HashSet<>();
-            authorities.add(new SimpleGrantedAuthority(user.getRole()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole()));
 
 
             return new org.springframework.security.core.userdetails.User(
