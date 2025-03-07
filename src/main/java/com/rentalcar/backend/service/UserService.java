@@ -26,13 +26,13 @@ public class UserService {
     /*
     private final BCryptPasswordEncoder passwordEncoder;
     */
+
     @Autowired
     public UserService(UserRepository userRepository, CarRequestRepository carRequestRepository) {
         this.userRepository = userRepository;
     /*    this.passwordEncoder = passwordEncoder;    */
         this.carRequestRepository = carRequestRepository;
     }
-
 
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
@@ -73,13 +73,6 @@ public class UserService {
         }
     }
 
-    public Long getLastUserId() {
-        return userRepository.findTopByOrderByIdDesc()
-                .map(User::getId)
-                .orElse(0L);
-    }
-
-
     public UserDTO updateUser(UserDTO updateUserDTO) {
         return userRepository.findById(updateUserDTO.getId()).map(user -> {
             user.setEmail(updateUserDTO.getEmail());
@@ -90,7 +83,6 @@ public class UserService {
             return convertToDTO(userRepository.save(user));
         }).orElseThrow(() -> new RuntimeException("User not found!"));
     }
-
 
     private UserDTO convertToDTO(User user) {
         if (user == null) {

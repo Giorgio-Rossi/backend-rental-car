@@ -56,16 +56,10 @@ public class CarService {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Errore durante l'eliminazione dell'auto");
         }
     }
-    public Long getLastCarId() {
-        return carRepository.findTopByOrderByIdDesc()
-                .map(Car::getId)
-                .orElse(0L);
-    }
 
     public List<CarDTO> getAllCars() {
         return carRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
-
 
     public CarDTO updateCar(CarDTO carDTO) {
         return carRepository.findById(carDTO.getId()).map(car -> {

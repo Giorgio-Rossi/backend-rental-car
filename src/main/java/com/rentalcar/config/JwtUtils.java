@@ -28,7 +28,7 @@ public class JwtUtils {
 
 
     public JwtUtils(@Value("${jwt.secret}") String secret) {
-        String secret1 = secret != null && !secret.isEmpty() ? secret : generateSecretKey();  // Usa il valore di Spring, o genera uno se è vuoto
+        String secret1 = secret != null && !secret.isEmpty() ? secret : generateSecretKey();
         this.key = Keys.hmacShaKeyFor(secret1.getBytes(StandardCharsets.UTF_8));
     }
     public String generateToken(UserDetails userDetails) {

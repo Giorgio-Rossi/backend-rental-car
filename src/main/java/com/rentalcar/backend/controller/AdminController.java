@@ -23,14 +23,12 @@ public class AdminController {
     private final UserService userService;
     private final CarService carService;
     private final CarRequestService carRequestService;
-    private final CarRepository carRepository;
 
 
-    public AdminController(UserService userService, CarService carService, CarRequestService carRequestService, CarRepository carRepository) {
+    public AdminController(UserService userService, CarService carService, CarRequestService carRequestService) {
         this.userService = userService;
         this.carService = carService;
         this.carRequestService = carRequestService;
-        this.carRepository = carRepository;
     }
 
     @PostMapping("/add-user")
@@ -46,23 +44,8 @@ public class AdminController {
 
     @PostMapping("/add-car")
     public CarDTO createCar(@RequestBody CarDTO carDTO) {
-        Long lastId = carRepository.findTopByOrderByIdDesc()
-                .map(Car::getId)
-                .orElse(0L);
-
-        carDTO.setId(lastId + 1);
 
         return carService.saveCar(carDTO);
-    }
-
-    @GetMapping("/last-user-id")
-    public Long getLastUserId() {
-        return userService.getLastUserId();
-    }
-
-    @GetMapping("/last-car-id")
-    public Long getLastCarId() {
-        return carService.getLastCarId();
     }
 
     @PutMapping("/edit-car/{id}")
