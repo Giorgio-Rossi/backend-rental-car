@@ -74,11 +74,6 @@ public class CarRequestService {
                 .collect(Collectors.toList());
     }
 
-    public CarRequestDTO saveCarRequest(CarRequestDTO carRequestDTO) {
-        CarRequest carRequest = convertToEntity(carRequestDTO);
-        return convertToDTO(carRequestRepository.save(carRequest));
-    }
-
     public CarRequestDTO updateRequest(CarRequestDTO carRequestDTO) {
         CarRequest carRequest = convertToEntity(carRequestDTO);
         carRequest.setUpdatedAt(new Date());

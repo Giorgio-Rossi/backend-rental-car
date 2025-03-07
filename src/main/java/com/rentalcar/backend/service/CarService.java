@@ -66,20 +66,6 @@ public class CarService {
         return carRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    public CarDTO getCarByLicensePlate(String licensePlate) {
-        return carRepository.findByLicensePlate(licensePlate)
-                .map(this::convertToDTO)
-                .orElse(null);
-    }
-
-    public CarDTO createCar(CarDTO carDTO) {
-        Long lastId = carRepository.findTopByOrderByIdDesc()
-                .map(Car::getId)
-                .orElse(0L);
-        carDTO.setId(lastId + 1);
-
-        return saveCar(carDTO);
-    }
 
     public CarDTO updateCar(CarDTO carDTO) {
         return carRepository.findById(carDTO.getId()).map(car -> {

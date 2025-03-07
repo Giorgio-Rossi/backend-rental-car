@@ -16,25 +16,21 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
 
 @Component
 public class JwtUtils {
     private static final long EXPIRATION_TIME = 3600000;
-    private final String TOKEN_HEADER = "Authorization";
-    private final String TOKEN_PREFIX = "Bearer ";
 
     private final Key key;
 
-    @Value("${jwt.secret}")
-    private String secret;
 
     public JwtUtils(@Value("${jwt.secret}") String secret) {
-        this.secret = secret;
-        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        String secret1 = secret != null && !secret.isEmpty() ? secret : generateSecretKey();  // Usa il valore di Spring, o genera uno se è vuoto
+        this.key = Keys.hmacShaKeyFor(secret1.getBytes(StandardCharsets.UTF_8));
     }
-
     public String generateToken(UserDetails userDetails) {
         String role = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -84,14 +80,16 @@ public class JwtUtils {
 
     public String resolveToken(HttpServletRequest request) {
 
+        String TOKEN_HEADER = "Authorization";
         String bearerToken = request.getHeader(TOKEN_HEADER);
+        String TOKEN_PREFIX = "Bearer ";
         if (bearerToken != null && bearerToken.startsWith(TOKEN_PREFIX)) {
             return bearerToken.substring(TOKEN_PREFIX.length());
         }
         return null;
     }
 
-    public String generateSecretKey() {
+    public static String generateSecretKey() {
         int length = 32;
 
         SecureRandom secureRandom = new SecureRandom();

@@ -48,14 +48,6 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found with username: " + username));
     }
 
-
-    public UserDTO getUserByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .map(this::convertToDTO)
-                .orElseThrow(() -> new RuntimeException("User not found with email: " + email));
-    }
-
-
     public UserDTO saveUser(UserDTO userDTO) {
         User user = convertToEntity(userDTO);
         return convertToDTO(userRepository.save(user));
@@ -86,18 +78,6 @@ public class UserService {
                 .map(User::getId)
                 .orElse(0L);
     }
-
-
-
-    /*
-    public UserDTO registerUser(UserDTO userDTO) {
-        if (userRepository.findByEmail(userDTO.getEmail()) != null) {
-            throw new RuntimeException("User already exists!");
-        }
-        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        return saveUser(userDTO);
-    }
-    */
 
 
     public UserDTO updateUser(UserDTO updateUserDTO) {

@@ -2,8 +2,6 @@ package com.rentalcar.backend.controller;
 
 import com.rentalcar.backend.dto.LoginRequestDTO;
 import com.rentalcar.backend.dto.LoginResponseDTO;
-import com.rentalcar.backend.model.User;
-import com.rentalcar.backend.service.AuthService;
 import com.rentalcar.backend.service.CustomUserDetailsService;
 import com.rentalcar.config.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    private final AuthService authService;
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailService;
     private final JwtUtils jwtUtils;
@@ -27,12 +24,10 @@ public class AuthController {
     @Autowired
     public AuthController(
             AuthenticationManager authenticationManager,
-            AuthService authService,
             CustomUserDetailsService customUserDetailService,
             JwtUtils jwtUtils
     ) {
         this.authenticationManager = authenticationManager;
-        this.authService = authService;
         this.customUserDetailService = customUserDetailService;
         this.jwtUtils = jwtUtils;
     }
@@ -49,16 +44,5 @@ public class AuthController {
                 .token(token)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-
-    private String extractUsernameFromBody(String body) {
-        String[] params = body.split("&");
-        for (String param : params) {
-            if (param.startsWith("username=")) {
-                return param.split("=")[1];
-            }
-        }
-        return null;
     }
 }

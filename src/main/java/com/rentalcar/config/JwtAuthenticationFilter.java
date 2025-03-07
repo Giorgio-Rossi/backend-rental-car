@@ -31,13 +31,12 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtHelper jwtHelper;
+    private JwtUtils jwtUtils;
     @Autowired
     private CustomUserDetailsService customUserDetailService;
 
     private final String secret= "una_chiave_sicura_di_almeno_32_caratteri_1234567890";
-    @Autowired
-    private JwtUtils jwtUtils;
+
 
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -80,32 +79,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         }
 
-    }
-
-    private String extractToken(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (StringUtils.hasText(header) && header.startsWith("Bearer ")) {
-            return header.substring(7);
-        }
-        return null;
-    }
-
-    private boolean validateToken(String token) {
-        try {
-            Jwts.parserBuilder()
-                    .setSigningKey(secret.getBytes(StandardCharsets.UTF_8))
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    private String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(secret.getBytes(StandardCharsets.UTF_8)).build().parseClaimsJws(token).getBody();
-        return claims.getSubject();
     }
 
 }

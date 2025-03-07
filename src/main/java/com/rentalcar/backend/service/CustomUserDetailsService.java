@@ -9,33 +9,29 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-    @Component
-    public class CustomUserDetailsService implements UserDetailsService {
+@Component
+public class CustomUserDetailsService implements UserDetailsService {
 
+    @Autowired
+    private UserRepository userRepository;
 
-        @Autowired
-        private UserRepository userRepository;
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        @Override
-        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username) .orElseThrow(() ->
+        new UsernameNotFoundException("User not exists by Username or Email"));
 
-            User user = userRepository.findByUsername(username) .orElseThrow(() ->
-                    new UsernameNotFoundException("User not exists by Username or Email"));
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole()));
 
-            Set<GrantedAuthority> authorities = new HashSet<>();
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole()));
-
-
-            return new org.springframework.security.core.userdetails.User(
+        return new org.springframework.security.core.userdetails.User(
                     username,
                     user.getPassword(),
                     authorities
             );
         }
-    }
+}
