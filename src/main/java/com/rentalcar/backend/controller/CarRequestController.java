@@ -19,7 +19,6 @@ public class CarRequestController {
         this.carRequestService = carRequestService;
     }
 
-
     @GetMapping("/available-cars")
     public List<CarDTO> getAvailableCars(@RequestParam("start") String startDate, @RequestParam("end") String endDate) {
         return carRequestService.getAvailableCars(startDate, endDate);
