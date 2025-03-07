@@ -1,5 +1,6 @@
 package com.rentalcar.backend.controller;
 
+import com.rentalcar.backend.dto.CarDTO;
 import com.rentalcar.backend.dto.CarRequestDTO;
 import com.rentalcar.backend.service.CarRequestService;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,10 @@ public class CarRequestController {
         this.carRequestService = carRequestService;
     }
 
-    @PostMapping("/create-request")
-    public CarRequestDTO createCarRequest(@RequestBody CarRequestDTO  CarRequestDTO) {
-       return carRequestService.addRequest(CarRequestDTO);
+
+    @GetMapping("/available-cars")
+    public List<CarDTO> getAvailableCars(@RequestParam("start") String startDate, @RequestParam("end") String endDate) {
+        return carRequestService.getAvailableCars(startDate, endDate);
     }
 
     @GetMapping("/all-requests")
@@ -37,6 +39,10 @@ public class CarRequestController {
         return carRequestService.updateRequest(carRequestDTO);
     }
 
+    @GetMapping("/last-request-id")
+    public Long getLastRequestId() {
+        return carRequestService.getLastRequestId();
+    }
     @GetMapping("get-request-by-username")
     public List<CarRequestDTO> getCarRequestsByUser(@RequestParam String username) {
         return carRequestService.getCarRequestsByUserId(username);

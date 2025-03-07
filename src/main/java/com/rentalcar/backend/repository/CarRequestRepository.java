@@ -2,6 +2,8 @@ package com.rentalcar.backend.repository;
 
 import com.rentalcar.backend.dto.CarRequestDTO;
 import jakarta.transaction.Transactional;
+
+import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,10 +17,19 @@ import java.util.Optional;
 
 @Repository
 public interface CarRequestRepository extends JpaRepository<CarRequest, Long> {
-    Optional<CarRequest> findByCarIdAndUserId(Long carId, Long userId);
+    @Query("SELECT cr FROM CarRequest cr WHERE cr.car.id = :carId AND cr.user.id = :userId")
+    List<CarRequest> findByCarIdAndUserId(@Param("carId") Long carId, @Param("userId") Long userId);
     void deleteByUserId(Long userId);
     List<CarRequest> findByUserUsername(String username);
+    Optional<CarRequest> findTopByOrderByIdDesc();
 
+    @Query("SELECT cr FROM CarRequest cr WHERE cr.car.id = :carId AND cr.user.id = :userId " +
+            "AND :startReservation < cr.endReservation AND :endReservation > cr.startReservation " +
+            "AND cr.status NOT IN ('CANCELLATA', 'ANNULLATA')")
+    List<CarRequest> findActiveOverlappingRequests(@Param("carId") Long carId,
+                                                   @Param("userId") Long userId,
+                                                   @Param("startReservation") Date startReservation,
+                                                   @Param("endReservation") Date endReservation);
 
     @Modifying
     @Transactional

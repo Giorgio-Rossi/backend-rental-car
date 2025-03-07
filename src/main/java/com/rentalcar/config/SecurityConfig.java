@@ -24,42 +24,42 @@ public class SecurityConfig {
 
     final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    final String[] ADMIN_ENDPOINTS = {
-            "/admin/**",
-            "/users/allusers",
-            "/api/cars/"
-    };
-
-    final String[] CUSTOMER_ENDPOINTS = {
-            "/customer/add-request",
-            "/api/cars/available-cars",
+    final String[] COMMON_ENDPOINTS = {
             "/api/cars/allcars",
             "/users/alluser",
-            "/api/car-requests/get-request-by-username",
-            "/api/car-requests/create-request",
-            "/users/get-user-by-username"
+            "/api/car-requests/get-request-by-username"
+    };
+
+    final String[] ADMIN_ONLY_ENDPOINTS = {
+            "/admin/**",
+            "api/car-requests/all-requests"
+    };
+
+    final String[] CUSTOMER_ONLY_ENDPOINTS = {
+            "/customer/add-request",
+            "/api/cars/available-cars",
+            "/users/get-user-by-username",
+            "/api/car-requests/last-request-id"
     };
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers(ADMIN_ENDPOINTS).hasRole("ADMIN")
-                        .requestMatchers(CUSTOMER_ENDPOINTS).hasRole("CUSTOMER")
+                        .requestMatchers(COMMON_ENDPOINTS).hasAnyRole("ADMIN", "CUSTOMER")
+                        .requestMatchers(ADMIN_ONLY_ENDPOINTS).hasRole("ADMIN")
+                        .requestMatchers(CUSTOMER_ONLY_ENDPOINTS).hasRole("CUSTOMER")
                         .anyRequest().authenticated()
                 )
-                .sessionManagement(sessionManagment -> sessionManagment
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement(sessionManagement ->
+                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 

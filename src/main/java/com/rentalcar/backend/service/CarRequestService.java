@@ -1,5 +1,6 @@
 package com.rentalcar.backend.service;
 
+import com.rentalcar.backend.dto.CarDTO;
 import com.rentalcar.backend.dto.CarRequestDTO;
 import com.rentalcar.backend.model.Car;
 import com.rentalcar.backend.model.CarRequest;
@@ -10,6 +11,8 @@ import com.rentalcar.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,11 +20,8 @@ import java.util.stream.Collectors;
 @Service
 public class CarRequestService {
 
-
     private final CarRequestRepository carRequestRepository;
-
-    private  final UserRepository userRepository;
-
+    private final UserRepository userRepository;
     private final CarRepository carRepository;
 
     public CarRequestService(CarRequestRepository carRequestRepository, UserRepository userRepository, CarRepository carRepository) {
@@ -30,7 +30,6 @@ public class CarRequestService {
         this.carRepository = carRepository;
     }
 
-
     public List<CarRequestDTO> getCarRequestsByUserId(String username) {
         return carRequestRepository.findByUserUsername(username)
                 .stream()
@@ -38,8 +37,41 @@ public class CarRequestService {
                 .collect(Collectors.toList());
     }
 
+    public List<CarDTO> getAvailableCars(String startDate, String endDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate start = LocalDate.parse(startDate, formatter);
+        LocalDate end = LocalDate.parse(endDate, formatter);
+
+        List<CarDTO> allCars = carRepository.findAll().stream()
+                .map(this::convertToCarDTO)
+                .toList();
+
+        List<CarRequestDTO> carRequests = carRequestRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+
+        return allCars.stream()
+                .filter(car -> isCarAvailable(car, carRequests, start, end))
+                .collect(Collectors.toList());
+    }
+
+    private boolean isCarAvailable(CarDTO car, List<CarRequestDTO> carRequests, LocalDate start, LocalDate end) {
+        for (CarRequestDTO request : carRequests) {
+            if (request.getCarID().equals(car.getId())) {
+                LocalDate requestStart = LocalDate.parse(request.getStartReservation().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                LocalDate requestEnd = LocalDate.parse(request.getEndReservation().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                if ((start.isBefore(requestEnd) && end.isAfter(requestStart))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     public List<CarRequestDTO> getAllCarRequests() {
-        return carRequestRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+        return carRequestRepository.findAll().stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
     public CarRequestDTO saveCarRequest(CarRequestDTO carRequestDTO) {
@@ -62,9 +94,20 @@ public class CarRequestService {
     }
 
     public CarRequestDTO addRequest(CarRequestDTO carRequestDTO) {
-        if (carRequestRepository.findByCarIdAndUserId(carRequestDTO.getCarID(), carRequestDTO.getUserID()).isPresent()) {
-            throw new RuntimeException("Request already exists for this car!");
+        System.out.println("Car ID: " + carRequestDTO.getCarID());
+        System.out.println("User ID: " + carRequestDTO.getUserID());
+
+        List<CarRequest> overlappingRequests = carRequestRepository.findActiveOverlappingRequests(
+                carRequestDTO.getCarID(),
+                carRequestDTO.getUserID(),
+                carRequestDTO.getStartReservation(),
+                carRequestDTO.getEndReservation()
+        );
+
+        if (!overlappingRequests.isEmpty()) {
+            throw new RuntimeException("Esiste già una richiesta attiva per quest'auto in queste date!");
         }
+
         CarRequest carRequest = convertToEntity(carRequestDTO);
         carRequest.setCreatedAt(new Date());
         carRequest.setUpdatedAt(new Date());
@@ -72,9 +115,13 @@ public class CarRequestService {
         return convertToDTO(carRequestRepository.save(carRequest));
     }
 
+    public Long getLastRequestId() {
+        return carRequestRepository.findTopByOrderByIdDesc().map(CarRequest::getId).orElse(0L);
+    }
+
     @Transactional
     public void deleteRequest(Long requestID) {
-         carRequestRepository.deleteById(requestID);
+        carRequestRepository.deleteById(requestID);
     }
 
     private CarRequestDTO convertToDTO(CarRequest carRequest) {
@@ -108,4 +155,16 @@ public class CarRequestService {
 
         return carRequest;
     }
+
+    private CarDTO convertToCarDTO(Car car) {
+        return new CarDTO(
+                car.getId(),
+                car.getBrand(),
+                car.getModel(),
+                car.getLicensePlate(),
+                car.getStatus(),
+                car.getUpdatedAt()
+        );
+    }
 }
+
