@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -22,12 +24,18 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Bean
+    public BCryptPasswordEncoder  passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     final String[] COMMON_ENDPOINTS = {
             "/api/cars/allcars",
             "/users/alluser",
-            "/api/car-requests/get-request-by-username"
+            "/api/car-requests/get-request-by-username",
+            "/admin/add-user"
     };
 
     final String[] ADMIN_ONLY_ENDPOINTS = {
@@ -51,6 +59,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/admin/add-user").permitAll()
                         .requestMatchers(COMMON_ENDPOINTS).hasAnyRole("ADMIN", "CUSTOMER")
                         .requestMatchers(ADMIN_ONLY_ENDPOINTS).hasRole("ADMIN")
                         .requestMatchers(CUSTOMER_ONLY_ENDPOINTS).hasRole("CUSTOMER")
