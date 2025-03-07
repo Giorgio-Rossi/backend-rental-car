@@ -34,8 +34,7 @@ public class SecurityConfig {
     final String[] COMMON_ENDPOINTS = {
             "/api/cars/allcars",
             "/users/alluser",
-            "/api/car-requests/get-request-by-username",
-            "/admin/add-user"
+            "/api/car-requests/get-request-by-username"
     };
 
     final String[] ADMIN_ONLY_ENDPOINTS = {
@@ -59,7 +58,6 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/admin/add-user").permitAll()
                         .requestMatchers(COMMON_ENDPOINTS).hasAnyRole("ADMIN", "CUSTOMER")
                         .requestMatchers(ADMIN_ONLY_ENDPOINTS).hasRole("ADMIN")
                         .requestMatchers(CUSTOMER_ONLY_ENDPOINTS).hasRole("CUSTOMER")
