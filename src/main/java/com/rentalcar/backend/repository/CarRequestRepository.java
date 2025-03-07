@@ -17,8 +17,6 @@ import java.util.Optional;
 
 @Repository
 public interface CarRequestRepository extends JpaRepository<CarRequest, Long> {
-    @Query("SELECT cr FROM CarRequest cr WHERE cr.car.id = :carId AND cr.user.id = :userId")
-    List<CarRequest> findByCarIdAndUserId(@Param("carId") Long carId, @Param("userId") Long userId);
     void deleteByUserId(Long userId);
     List<CarRequest> findByUserUsername(String username);
     Optional<CarRequest> findTopByOrderByIdDesc();

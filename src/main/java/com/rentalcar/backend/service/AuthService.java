@@ -20,23 +20,12 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-    private final Set<String> activeUsers = new HashSet<>();
-
     @Autowired
     public AuthService(UserRepository userRepository) {
         this.userRepository = userRepository;
 
     }
 
-
-    public String logout(String username){
-        if(activeUsers.contains(username)){
-            activeUsers.remove(username);
-            return "Logout successful for user: " + username;
-        } else {
-            return "User not logged in: " + username;
-        }
-    }
 
     private String generateJwtToken(String username) {
         Key key = new SecretKeySpec("test".getBytes(), SignatureAlgorithm.HS512.getJcaName());

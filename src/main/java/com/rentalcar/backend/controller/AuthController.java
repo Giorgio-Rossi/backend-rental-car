@@ -51,16 +51,6 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/logout")
-    public ResponseEntity<String> logout(@RequestBody String body) {
-        String username = extractUsernameFromBody(body);
-        String response = authService.logout(username);
-        if (response.contains("successful")) {
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
-    }
 
     private String extractUsernameFromBody(String body) {
         String[] params = body.split("&");
