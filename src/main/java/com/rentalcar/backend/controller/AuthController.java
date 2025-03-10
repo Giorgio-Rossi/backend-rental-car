@@ -45,4 +45,14 @@ public class AuthController {
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @DeleteMapping("/logout")
+    public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
+        if (token != null && token.startsWith("Bearer ")) {
+            token = token.substring(7);
+            jwtUtils.invalidateToken(token);
+            return ResponseEntity.ok("Logout effettuato con successo.");
+        }
+        return ResponseEntity.badRequest().body("Token non valido.");
+    }
 }

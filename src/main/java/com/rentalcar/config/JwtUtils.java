@@ -1,6 +1,8 @@
 package com.rentalcar.config;
 
+import com.rentalcar.backend.model.InvalidToken;
 import com.rentalcar.backend.model.User;
+import com.rentalcar.backend.repository.InvalidTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,11 +25,12 @@ import org.springframework.beans.factory.annotation.Value;
 @Component
 public class JwtUtils {
     private static final long EXPIRATION_TIME = 3600000;
-
+    public final InvalidTokenRepository invalidTokenRepository;
     private final Key key;
 
 
-    public JwtUtils(@Value("${jwt.secret}") String secret) {
+    public JwtUtils(@Value("${jwt.secret}") String secret, InvalidTokenRepository invalidTokenRepository) {
+        this.invalidTokenRepository = invalidTokenRepository;
         String secret1 = secret != null && !secret.isEmpty() ? secret : generateSecretKey();
         this.key = Keys.hmacShaKeyFor(secret1.getBytes(StandardCharsets.UTF_8));
     }
@@ -99,6 +102,12 @@ public class JwtUtils {
         secureRandom.nextBytes(keyBytes);
 
         return Base64.getEncoder().encodeToString(keyBytes);
+    }
+
+    public void invalidateToken(String token) {
+        Date expiration = extractExpiration(token);
+        InvalidToken invalidToken = new InvalidToken(token, expiration);
+        invalidTokenRepository.save(invalidToken);
     }
 
 }
