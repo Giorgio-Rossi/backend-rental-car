@@ -139,7 +139,6 @@ public class CarRequestService {
                 .orElseThrow(() -> new RuntimeException("Car not found"));
 
         CarRequest carRequest = new CarRequest();
-        carRequest.setId(carRequestDTO.getId());
         carRequest.setUser(user);
         carRequest.setCar(car);
         carRequest.setStatus(carRequestDTO.getStatus());

@@ -1,12 +1,10 @@
-package com.rentalcar.config;
+package com.rentalcar.backend.service;
 
 import com.rentalcar.backend.model.InvalidToken;
-import com.rentalcar.backend.model.User;
 import com.rentalcar.backend.repository.InvalidTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -16,20 +14,17 @@ import java.security.Key;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Value;
 
 @Component
-public class JwtUtils {
+public class JwtService {
     private static final long EXPIRATION_TIME = 3600000;
     public final InvalidTokenRepository invalidTokenRepository;
     private final Key key;
 
 
-    public JwtUtils(@Value("${jwt.secret}") String secret, InvalidTokenRepository invalidTokenRepository) {
+    public JwtService(@Value("${jwt.secret}") String secret, InvalidTokenRepository invalidTokenRepository) {
         this.invalidTokenRepository = invalidTokenRepository;
         String secret1 = secret != null && !secret.isEmpty() ? secret : generateSecretKey();
         this.key = Keys.hmacShaKeyFor(secret1.getBytes(StandardCharsets.UTF_8));

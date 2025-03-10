@@ -3,7 +3,7 @@ package com.rentalcar.backend.controller;
 import com.rentalcar.backend.dto.LoginRequestDTO;
 import com.rentalcar.backend.dto.LoginResponseDTO;
 import com.rentalcar.backend.service.CustomUserDetailsService;
-import com.rentalcar.config.JwtUtils;
+import com.rentalcar.backend.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,17 +19,17 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService customUserDetailService;
-    private final JwtUtils jwtUtils;
+    private final JwtService jwtService;
 
     @Autowired
     public AuthController(
             AuthenticationManager authenticationManager,
             CustomUserDetailsService customUserDetailService,
-            JwtUtils jwtUtils
+            JwtService jwtService
     ) {
         this.authenticationManager = authenticationManager;
         this.customUserDetailService = customUserDetailService;
-        this.jwtUtils = jwtUtils;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/login")
@@ -38,7 +38,7 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDTO.getUsername(), loginRequestDTO.getPassword()));
 
         UserDetails userDetails = customUserDetailService.loadUserByUsername(loginRequestDTO.getUsername());
-        String token = this.jwtUtils.generateToken(userDetails);
+        String token = this.jwtService.generateToken(userDetails);
 
         LoginResponseDTO response = LoginResponseDTO.builder()
                 .token(token)
@@ -50,7 +50,7 @@ public class AuthController {
     public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
-            jwtUtils.invalidateToken(token);
+            jwtService.invalidateToken(token);
             return ResponseEntity.ok("Logout effettuato con successo.");
         }
         return ResponseEntity.badRequest().body("Token non valido.");

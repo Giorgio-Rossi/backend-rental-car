@@ -3,6 +3,7 @@ package com.rentalcar.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rentalcar.backend.service.CustomUserDetailsService;
 
+import com.rentalcar.backend.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +28,7 @@ import java.util.Map;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private JwtUtils jwtUtils;
+    private JwtService jwtService;
     @Autowired
     private CustomUserDetailsService customUserDetailService;
 
@@ -43,10 +44,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
 
         try{
-            String token = jwtUtils.resolveToken(request);
+            String token = jwtService.resolveToken(request);
 
-            if(StringUtils.hasText(token) && jwtUtils.validateToken(token)){
-                String username = jwtUtils.extractUsername(token);
+            if(StringUtils.hasText(token) && jwtService.validateToken(token)){
+                String username = jwtService.extractUsername(token);
 
                 UserDetails userDetails = customUserDetailService.loadUserByUsername(username);
 

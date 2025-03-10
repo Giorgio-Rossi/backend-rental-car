@@ -78,7 +78,6 @@ public class CarService {
 
     private Car convertToEntity(CarDTO carDTO) {
         Car car = new Car();
-        car.setId(carDTO.getId());
         car.setBrand(carDTO.getBrand());
         car.setModel(carDTO.getModel());
         car.setLicensePlate(carDTO.getLicensePlate());
