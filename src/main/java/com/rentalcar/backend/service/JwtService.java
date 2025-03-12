@@ -35,9 +35,6 @@ public class JwtService {
                 .findFirst()
                 .orElse("");
 
-        Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + EXPIRATION_TIME);
-
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim("role", role)
@@ -49,7 +46,6 @@ public class JwtService {
     }
 
     public Boolean validateToken(String token) {
-        final String username = extractUsername(token);
         return (!isTokenExpired(token));
     }
 
