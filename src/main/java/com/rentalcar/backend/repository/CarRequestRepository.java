@@ -1,18 +1,14 @@
 package com.rentalcar.backend.repository;
 
-import com.rentalcar.backend.dto.CarRequestDTO;
 import jakarta.transaction.Transactional;
-
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.rentalcar.backend.model.CarRequest;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.Optional;
 
 @Repository

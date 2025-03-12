@@ -10,7 +10,6 @@ import com.rentalcar.backend.repository.CarRequestRepository;
 import com.rentalcar.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;

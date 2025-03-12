@@ -2,7 +2,6 @@ package com.rentalcar.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rentalcar.backend.service.CustomUserDetailsService;
-
 import com.rentalcar.backend.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,9 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
-
 import java.util.HashMap;
 import java.util.Map;
 

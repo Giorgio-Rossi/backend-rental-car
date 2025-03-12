@@ -2,9 +2,7 @@ package com.rentalcar.backend.service;
 
 import com.rentalcar.backend.repository.CarRequestRepository;
 import jakarta.transaction.Transactional;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -14,7 +12,6 @@ import com.rentalcar.backend.repository.UserRepository;
 import com.rentalcar.backend.dto.UserDTO;
 import com.rentalcar.backend.model.User;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

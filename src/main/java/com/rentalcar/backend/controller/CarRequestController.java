@@ -4,9 +4,6 @@ import com.rentalcar.backend.dto.CarDTO;
 import com.rentalcar.backend.dto.CarRequestDTO;
 import com.rentalcar.backend.service.CarRequestService;
 import org.springframework.web.bind.annotation.*;
-
-import com.rentalcar.backend.service.CarRequestService;
-
 import java.util.List;
 
 @RestController

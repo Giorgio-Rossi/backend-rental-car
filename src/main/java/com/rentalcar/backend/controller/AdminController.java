@@ -3,18 +3,14 @@ package com.rentalcar.backend.controller;
 import com.rentalcar.backend.dto.CarDTO;
 import com.rentalcar.backend.dto.CarRequestDTO;
 import com.rentalcar.backend.dto.UserDTO;
-import com.rentalcar.backend.model.Car;
-import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.service.CarRequestService;
 import com.rentalcar.backend.service.CarService;
 import com.rentalcar.backend.service.UserService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.Map;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequestMapping("/admin")

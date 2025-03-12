@@ -2,7 +2,6 @@ package com.rentalcar.backend.service;
 
 import java.util.List;
 import com.rentalcar.backend.dto.CarDTO;
-import com.rentalcar.backend.model.User;
 import com.rentalcar.backend.repository.CarRequestRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.rentalcar.backend.repository.CarRepository;
 import com.rentalcar.backend.model.Car;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.Optional;
 import java.util.stream.Collectors;
 

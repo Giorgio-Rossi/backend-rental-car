@@ -8,13 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Value;
 
 @Component

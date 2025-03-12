@@ -2,7 +2,6 @@ package com.rentalcar.backend.model;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-
 import java.util.Date;
 
 @Getter
