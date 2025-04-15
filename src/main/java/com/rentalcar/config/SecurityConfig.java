@@ -31,12 +31,17 @@ public class SecurityConfig {
     final String[] COMMON_ENDPOINTS = {
             "/api/cars/allcars",
             "/users/alluser",
-            "/api/car-requests/get-request-by-username"
+            "/api/car-requests/get-request-by-username",
+            "/api/car-requests/update-request/**",
+            "/api/car-requests/{id}"
     };
 
     final String[] ADMIN_ONLY_ENDPOINTS = {
             "/admin/**",
-            "api/car-requests/all-requests"
+            "/api/car-requests/all-requests",
+            "/admin/create-user",
+            "/users",
+            "/users/{id}"
     };
 
     final String[] CUSTOMER_ONLY_ENDPOINTS = {
@@ -68,12 +73,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
+        configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:4200"));
 
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
 
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With"));
 

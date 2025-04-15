@@ -1,12 +1,15 @@
 package com.rentalcar.backend.controller;
 
+import com.rentalcar.backend.dto.AdminUpdateDTO;
 import com.rentalcar.backend.dto.UserDTO;
 import com.rentalcar.backend.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -28,10 +31,9 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @PutMapping("/{id}")
-    public UserDTO updateUser(@PathVariable Long id, @RequestBody UserDTO user) {
-        user.setId(id);
-        return userService.saveUser(user);
+    @PatchMapping("/{id}")
+    public void updateUser(@PathVariable Long id, @RequestBody AdminUpdateDTO admin) {
+         userService.adminUpdateUser(id, admin);
     }
 
     @DeleteMapping("/{id}")

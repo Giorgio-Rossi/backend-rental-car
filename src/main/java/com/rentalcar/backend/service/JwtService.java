@@ -1,6 +1,7 @@
 package com.rentalcar.backend.service;
 
 import com.rentalcar.backend.model.InvalidToken;
+import com.rentalcar.backend.model.User;
 import com.rentalcar.backend.repository.InvalidTokenRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -33,9 +34,12 @@ public class JwtService {
                 .findFirst()
                 .orElse("");
 
+        User user = (User) userDetails;
+
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim("role", role)
+                .claim("id", user.getId())
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))

@@ -26,7 +26,7 @@ public class CarRequestController {
         return carRequestService.getAllCarRequests();
     }
 
-    @PutMapping("/update-request/{id}")
+    @PatchMapping("/update-request/{id}")
     public CarRequestDTO updateRequest(
             @PathVariable("id") Long id,
             @RequestBody CarRequestDTO carRequestDTO
@@ -35,10 +35,6 @@ public class CarRequestController {
         return carRequestService.updateRequest(carRequestDTO);
     }
 
-    @GetMapping("/last-request-id")
-    public Long getLastRequestId() {
-        return carRequestService.getLastRequestId();
-    }
     @GetMapping("get-request-by-username")
     public List<CarRequestDTO> getCarRequestsByUser(@RequestParam String username) {
         return carRequestService.getCarRequestsByUserId(username);
@@ -48,4 +44,11 @@ public class CarRequestController {
     public void deleteRequest(@PathVariable("id") Long id) {
         carRequestService.deleteRequest(id);
     }
+
+    @GetMapping("/{id}")
+    public CarRequestDTO getRequest(@PathVariable("id") Long id) {
+        return carRequestService.getRequest(id);
+    }
+
+
 }

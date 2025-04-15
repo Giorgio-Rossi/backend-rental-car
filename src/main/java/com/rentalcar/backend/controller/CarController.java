@@ -30,14 +30,8 @@ public class CarController {
         return carService.getCarById(id);
     }
 
-
     @DeleteMapping("/{id}")
     public void deleteCar(@PathVariable("id") Long id) {
         carService.deleteCar(id);
-    }
-
-    @GetMapping("/available-cars")
-    public List<CarDTO> getAvailableCars() {
-        return carService.getAvailableCars();
     }
 }

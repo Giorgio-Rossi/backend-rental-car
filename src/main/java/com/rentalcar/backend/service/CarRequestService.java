@@ -11,6 +11,8 @@ import com.rentalcar.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -37,9 +39,10 @@ public class CarRequestService {
     }
 
     public List<CarDTO> getAvailableCars(String startDate, String endDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate start = LocalDate.parse(startDate, formatter);
-        LocalDate end = LocalDate.parse(endDate, formatter);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+
+        LocalDateTime start = LocalDateTime.parse(startDate, formatter);
+        LocalDateTime end = LocalDateTime.parse(endDate, formatter);
 
         List<CarDTO> allCars = carRepository.findAll().stream()
                 .map(this::convertToCarDTO)
@@ -54,12 +57,12 @@ public class CarRequestService {
                 .collect(Collectors.toList());
     }
 
-    private boolean isCarAvailable(CarDTO car, List<CarRequestDTO> carRequests, LocalDate start, LocalDate end) {
+    private boolean isCarAvailable(CarDTO car, List<CarRequestDTO> carRequests, LocalDateTime start, LocalDateTime end) {
         for (CarRequestDTO request : carRequests) {
             if (request.getCarID().equals(car.getId())) {
-                LocalDate requestStart = LocalDate.parse(request.getStartReservation().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                LocalDate requestEnd = LocalDate.parse(request.getEndReservation().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                if ((start.isBefore(requestEnd) && end.isAfter(requestStart))) {
+                LocalDateTime requestStart = LocalDateTime .parse(request.getStartReservation().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                LocalDateTime  requestEnd = LocalDateTime .parse(request.getEndReservation().toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S"));
+                if (start.isBefore(requestEnd) && end.isAfter(requestStart)) {
                     return false;
                 }
             }
@@ -73,11 +76,32 @@ public class CarRequestService {
                 .collect(Collectors.toList());
     }
 
-    public CarRequestDTO updateRequest(CarRequestDTO carRequestDTO) {
-        CarRequest carRequest = convertToEntity(carRequestDTO);
-        carRequest.setUpdatedAt(new Date());
-        return convertToDTO(carRequestRepository.save(carRequest));
+    public CarRequestDTO getRequest(Long id) {
+        return carRequestRepository.findById(id)
+                .map(this::convertToDTO)
+                .orElseThrow(() -> new RuntimeException("Car request not found"));
     }
+
+    public CarRequestDTO updateRequest(CarRequestDTO carRequestDTO) {
+        CarRequest existing = carRequestRepository.findById(carRequestDTO.getId())
+                .orElseThrow(() -> new RuntimeException("Richiesta non trovata con ID: " + carRequestDTO.getId()));
+
+        User user = userRepository.findById(carRequestDTO.getUserID())
+                .orElseThrow(() -> new RuntimeException("Utente non trovato con ID: " + carRequestDTO.getUserID()));
+
+        Car car = carRepository.findById(carRequestDTO.getCarID())
+                .orElseThrow(() -> new RuntimeException("Auto non trovata con ID: " + carRequestDTO.getCarID()));
+
+        existing.setUser(user);
+        existing.setCar(car);
+        existing.setStatus(carRequestDTO.getStatus());
+        existing.setStartReservation(carRequestDTO.getStartReservation());
+        existing.setEndReservation(carRequestDTO.getEndReservation());
+        existing.setUpdatedAt(new Date());
+
+        return convertToDTO(carRequestRepository.save(existing));
+    }
+
 
     public CarRequestDTO manageRequest(Long requestID, String newStatus) throws Exception {
         return carRequestRepository.findById(requestID).map(carRequest -> {

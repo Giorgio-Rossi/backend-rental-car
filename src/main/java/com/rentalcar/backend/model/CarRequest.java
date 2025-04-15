@@ -51,6 +51,7 @@ public class CarRequest {
     }
 
 
+
     @Getter
     public enum CarRequestStatus {
         APPROVATA,

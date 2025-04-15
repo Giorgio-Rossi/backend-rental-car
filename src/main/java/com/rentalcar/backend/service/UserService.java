@@ -1,5 +1,6 @@
 package com.rentalcar.backend.service;
 
+import com.rentalcar.backend.dto.AdminUpdateDTO;
 import com.rentalcar.backend.repository.CarRequestRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import com.rentalcar.backend.model.User;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,6 +24,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final CarRequestRepository carRequestRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+
 
     @Autowired
     public UserService(UserRepository userRepository, CarRequestRepository carRequestRepository, BCryptPasswordEncoder passwordEncoder) {
@@ -48,6 +51,40 @@ public class UserService {
         User user = convertToEntity(userDTO);
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         return convertToDTO(userRepository.save(user));
+    }
+
+    public void adminUpdateUser(Long userId, AdminUpdateDTO adminUpdateDTO) {
+
+        User user = userRepository.findById(userId).orElse(null);
+        if(user != null) {
+            user.setRole(adminUpdateDTO.getRole());
+            user.setFullName(adminUpdateDTO.getFullName());
+            userRepository.save(user);
+        }
+
+    }
+
+    public void adminUpdateUser1(Long userId, AdminUpdateDTO adminUpdateDTO) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(
+                        () -> new RuntimeException(""));
+            user.setRole(adminUpdateDTO.getRole());
+            user.setFullName(adminUpdateDTO.getFullName());
+            userRepository.save(user);
+
+    }
+
+    public void adminUpdateUser2(Long userId, AdminUpdateDTO adminUpdateDTO) {
+        userRepository.findById(userId).ifPresent(getUserConsumer(adminUpdateDTO));
+
+    }
+
+    private Consumer<User> getUserConsumer(AdminUpdateDTO adminUpdateDTO) {
+        return user1 -> {
+            user1.setRole(adminUpdateDTO.getRole());
+            user1.setFullName(adminUpdateDTO.getFullName());
+            userRepository.save(user1);
+        };
     }
 
     @Transactional
@@ -93,5 +130,8 @@ public class UserService {
     private User convertToEntity(UserDTO userDTO) {
         return new User(userDTO.getId(), userDTO.getUsername(), userDTO.getEmail(), userDTO.getRole(), userDTO.getPassword(), userDTO.getFullName());
     }
+
+
+
 
 }

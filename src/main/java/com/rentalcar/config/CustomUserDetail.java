@@ -19,7 +19,7 @@ public class CustomUserDetail implements UserDetails {
     public CustomUserDetail(String username, String password) {
         this.username = username;
         this.password = password;
-        this.authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        this.authorities = List.of(new SimpleGrantedAuthority("CUSTOMER"));
     }
 
     @Override

@@ -29,6 +29,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private CustomUserDetailsService customUserDetailService;
 
+    private final String secret= "una_chiave_sicura_di_almeno_32_caratteri_1234567890";
+
+
     private final ObjectMapper mapper = new ObjectMapper();
 
 
