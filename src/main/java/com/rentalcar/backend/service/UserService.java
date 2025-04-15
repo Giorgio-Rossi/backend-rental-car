@@ -54,14 +54,12 @@ public class UserService {
     }
 
     public void adminUpdateUser(Long userId, AdminUpdateDTO adminUpdateDTO) {
-
         User user = userRepository.findById(userId).orElse(null);
         if(user != null) {
             user.setRole(adminUpdateDTO.getRole());
             user.setFullName(adminUpdateDTO.getFullName());
             userRepository.save(user);
         }
-
     }
 
     public void adminUpdateUser1(Long userId, AdminUpdateDTO adminUpdateDTO) {

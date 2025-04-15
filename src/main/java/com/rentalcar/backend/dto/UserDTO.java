@@ -1,10 +1,14 @@
 package com.rentalcar.backend.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
     private Long id;
     private String username;
@@ -12,16 +16,4 @@ public class UserDTO {
     private String role;
     private String password;
     private String fullName;
-
-    public UserDTO() {
-    }
-
-    public UserDTO(Long id, String username, String email, String role, String password, String fullName) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.role = role;
-        this.password = password;
-        this.fullName = fullName;
-    }
 }

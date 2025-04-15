@@ -1,7 +1,9 @@
 package com.rentalcar.backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -32,19 +36,6 @@ public class User implements UserDetails {
     private String password;
 
     private String fullName;
-
-
-    public User() {
-    }
-
-    public User(Long id, String username, String email, String role, String password, String fullName) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.role = role;
-        this.password = password;
-        this.fullName = fullName;
-    }
 
     public <E> User(String username, String s, ArrayList<E> es) {
     }

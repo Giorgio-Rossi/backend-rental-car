@@ -1,12 +1,16 @@
 package com.rentalcar.backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
 
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "car_request")
 public class CarRequest {
@@ -35,21 +39,6 @@ public class CarRequest {
 
     private Date createdAt;
     private Date updatedAt;
-
-    public CarRequest() {
-    }
-
-    public CarRequest(Long id, User userId, Car carId, CarRequestStatus status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt) {
-        this.id = id;
-        this.user = userId;
-        this.car = carId;
-        this.status = status;
-        this.startReservation = startReservation;
-        this.endReservation = endReservation;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
 
 
     @Getter

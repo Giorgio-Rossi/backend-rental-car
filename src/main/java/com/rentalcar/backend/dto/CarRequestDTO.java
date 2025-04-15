@@ -1,12 +1,16 @@
 package com.rentalcar.backend.dto;
 
 import com.rentalcar.backend.model.CarRequest;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CarRequestDTO {
     private Long id;
     private Long userID;
@@ -16,20 +20,5 @@ public class CarRequestDTO {
     private Date endReservation;
     private Date createdAt;
     private Date updatedAt;
-
-    public CarRequestDTO() {
-    }
-
-    public CarRequestDTO(Long id, Long userID, Long carID, CarRequest.CarRequestStatus status, Date startReservation, Date endReservation, Date createdAt, Date updatedAt) {
-        this.id = id;
-        this.userID = userID;
-        this.carID = carID;
-        this.status = status;
-        this.startReservation = startReservation;
-        this.endReservation = endReservation;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-    }
-
 }
 
