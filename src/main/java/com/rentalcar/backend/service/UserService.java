@@ -25,7 +25,6 @@ public class UserService {
     private final CarRequestRepository carRequestRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
-
     @Autowired
     public UserService(UserRepository userRepository, CarRequestRepository carRequestRepository, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;

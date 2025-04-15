@@ -37,7 +37,7 @@ public class CarRequestController {
 
     @GetMapping("get-request-by-username")
     public List<CarRequestDTO> getCarRequestsByUser(@RequestParam String username) {
-        return carRequestService.getCarRequestsByUserId(username);
+        return carRequestService.getCarRequestsByUsername(username);
     }
 
     @DeleteMapping("/{id}")

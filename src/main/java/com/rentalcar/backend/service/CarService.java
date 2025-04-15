@@ -83,11 +83,4 @@ public class CarService {
         car.setUpdatedAt(carDTO.getUpdatedAt());
         return car;
     }
-
-    public List<CarDTO> getAvailableCars() {
-        return carRepository.findByStatus("Disponibile")
-                .stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
-    }
 }

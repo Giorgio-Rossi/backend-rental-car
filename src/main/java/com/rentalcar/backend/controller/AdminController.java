@@ -20,7 +20,6 @@ public class AdminController {
     private final CarService carService;
     private final CarRequestService carRequestService;
 
-
     public AdminController(UserService userService, CarService carService, CarRequestService carRequestService) {
         this.userService = userService;
         this.carService = carService;

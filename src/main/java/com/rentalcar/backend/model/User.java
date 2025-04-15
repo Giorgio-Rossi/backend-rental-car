@@ -37,12 +37,6 @@ public class User implements UserDetails {
 
     private String fullName;
 
-    public <E> User(String username, String s, ArrayList<E> es) {
-    }
-
-    public User(String role, String fullName) {
-    }
-
     public UserDetails orElseThrow(Object o) {
         return null;
     }
@@ -56,7 +50,6 @@ public class User implements UserDetails {
     public boolean isAccountNonExpired() {
         return true;
     }
-
 
     @Override
     public boolean isAccountNonLocked() {

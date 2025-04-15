@@ -22,7 +22,6 @@ public class JwtService {
     public final InvalidTokenRepository invalidTokenRepository;
     private final Key key;
 
-
     public JwtService(@Value("${jwt.secret}") String secret, InvalidTokenRepository invalidTokenRepository) {
         this.invalidTokenRepository = invalidTokenRepository;
         String secret1 = secret != null && !secret.isEmpty() ? secret : generateSecretKey();

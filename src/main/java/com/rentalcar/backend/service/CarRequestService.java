@@ -10,9 +10,7 @@ import com.rentalcar.backend.repository.CarRequestRepository;
 import com.rentalcar.backend.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -31,7 +29,7 @@ public class CarRequestService {
         this.carRepository = carRepository;
     }
 
-    public List<CarRequestDTO> getCarRequestsByUserId(String username) {
+    public List<CarRequestDTO> getCarRequestsByUsername(String username) {
         return carRequestRepository.findByUserUsername(username)
                 .stream()
                 .map(this::convertToDTO)
@@ -102,7 +100,6 @@ public class CarRequestService {
         return convertToDTO(carRequestRepository.save(existing));
     }
 
-
     public CarRequestDTO manageRequest(Long requestID, String newStatus) throws Exception {
         return carRequestRepository.findById(requestID).map(carRequest -> {
             CarRequest.CarRequestStatus status = CarRequest.CarRequestStatus.valueOf(newStatus);
@@ -133,11 +130,7 @@ public class CarRequestService {
         return convertToDTO(carRequestRepository.save(carRequest));
     }
 
-    public Long getLastRequestId() {
-        return carRequestRepository.findTopByOrderByIdDesc().map(CarRequest::getId).orElse(0L);
-    }
-
-    @Transactional
+   @Transactional
     public void deleteRequest(Long requestID) {
         carRequestRepository.deleteById(requestID);
     }
