@@ -2,7 +2,6 @@
 
 [![Java](https://img.shields.io/badge/Java-17-blue.svg)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.1.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## 🔗 Full System Architecture
 A complete backend system for car rental management, featuring JWT authentication, role-based authorization, and RESTful API design.
