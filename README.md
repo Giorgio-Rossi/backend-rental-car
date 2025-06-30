@@ -4,8 +4,10 @@
 [![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.1.5-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+## 🔗 Full System Architecture
 A complete backend system for car rental management, featuring JWT authentication, role-based authorization, and RESTful API design.
-
+This backend service is designed to work seamlessly with its [React frontend counterpart](https://github.com/Giorgio-Rossi/react-rental-car) to form a complete car rental platform:
+<br>
 ## ✨ Key Features
 - **JWT Authentication** (Spring Security 6)
 - **Role-based access control** (Admin/Customer)
@@ -25,8 +27,8 @@ A complete backend system for car rental management, featuring JWT authenticatio
 | Tools          | Docker, Maven, Lombok                 |
 | Documentation  | OpenAPI 3, Swagger UI                 |
 
-## 🚀 Quick Start
 
+## 🚀 Quick Start
 ### Prerequisites
 - Java 17+
 - PostgreSQL 15+
@@ -109,6 +111,20 @@ Run tests:
 └── test/                     # Comprehensive tests
  ```
 
+
+### Other Features
+- **End-to-end JWT flow**: Frontend handles token storage/refresh
+- **Consistent DTOs**: Shared data models between frontend and backend
+- **Unified CI/CD**: Both components can be deployed together via Docker Compose
+
+### Recommended Setup
+1. First launch this backend service (follow instructions below)
+2. Then setup the [frontend application](https://github.com/Giorgio-Rossi/react-rental-car#-quick-start)
+3. Configure the frontend's `.env` to point to your backend:
+   ```env
+   REACT_APP_API_URL=http://localhost:8080/api
+   ```
+   
 ## 🤝 How to Contribute
 1. Fork the project
 2. Create your feature branch (git checkout -b feature/AmazingFeature)
